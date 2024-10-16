@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>to my goddess</title>
+    <title>致亲爱的小公主</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <!--<meta itemprop="image" content="./images/fenxiang.png" />-->
@@ -121,16 +121,16 @@
 <body>
 <!--更改为你女朋友的头像-->
 <div class="cs">
-    <img src="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-6-29/64134513.jpg" id="logo">
+    <img src="pic.jpg" id="logo">
 </div>
 <div class="music">
-<!--     <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=282 height=86 src="https://music.163.com/outchain/player?type=2&id=34341360&auto=1&height=66"></iframe> -->
-    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="https://music.163.com/outchain/player?type=2&id=34341360&auto=1&height=32"></iframe>   
+    <audio controls>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>   
 </div>
 <canvas class="canvas" width="1820" height="905"></canvas>
 <p class="text" style="color: #FFCCCC;">
-     小公主，很高兴，很幸运与你相遇！
-     这是一件最重要的小事！
+    小公主，很高兴，很幸运与你相遇！
     <br/>
     我们相处的时光已有：
     <br/>
@@ -165,12 +165,12 @@
 			//想说的话
             if (a==1) {
                 document.body.classList.add('body--ready');
-                alert("你要吃的我都做~"); 
-                S.UI.simulate("傻欢|遇见你|很幸运|#time");
+                alert("你想吃的我都做~"); 
+                S.UI.simulate("碰见你|遇见你|很幸运|#time");
             }else if (a==2){
                 document.body.classList.add('body--ready1');
                 alert("你想去的地方我都陪你去~");
-                S.UI.simulate("傻儿子|我爱你|#time");               
+                S.UI.simulate("我想你|我爱你|#time");               
             }else if (a==3) {
                  document.body.classList.add('body--ready2');
                  alert("你想做的事情我都陪你做~");
@@ -181,8 +181,8 @@
                  S.UI.simulate("傻欢|以后的路|我|陪着|你|走|#countdown 3|#time");
             }else{
                  document.body.classList.add('body--ready4');
-                 alert("大傻子，我爱你哦~");
-                 S.UI.simulate("大傻子");                
+                 alert("小公主，我爱你哦~");
+                 S.UI.simulate("何美女");                
             }
             S.Drawing.loop(function () {
                 S.Shape.render();
