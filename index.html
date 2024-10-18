@@ -161,16 +161,16 @@
     var S = {
         init: function () {
             S.Drawing.init('.canvas');
-            var a =Math.floor(Math.random() * 5+1);
+            var a =Math.floor(Math.random() * 4+1);
 			//想说的话
             if (a==1) {
                 document.body.classList.add('body--ready');
                 alert("你想吃的我都做~"); 
-                S.UI.simulate("碰见你|遇见你|很幸运|#time");
+                S.UI.simulate("碰见你|遇见你|很幸运|#countdown 3|#time");
             }else if (a==2){
                 document.body.classList.add('body--ready1');
                 alert("你想去的地方我都陪你去~");
-                S.UI.simulate("我想你|我爱你|#time");               
+                S.UI.simulate("想你啦|快快乐乐|开开心心|#countdown 3|#time");               
             }else if (a==3) {
                  document.body.classList.add('body--ready2');
                  alert("你想做的事情我都陪你做~");
@@ -178,7 +178,7 @@
             }else{
                  document.body.classList.add('body--ready4');
                  alert("小公主，天天快乐哦~");
-                 S.UI.simulate("何美女");                
+                 S.UI.simulate("何美女|小公主|何大厨|#countdown 3|#time");                
             }
             S.Drawing.loop(function () {
                 S.Shape.render();
