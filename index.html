@@ -1,184 +1,362 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>致亲爱小公主</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>致亲爱的小公主</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <!--<meta itemprop="image" content="./images/fenxiang.png" />-->
     <style>
-        html {
+        html, body {
             height: 100%;
+            margin: 0;
         }
         body {
             font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
             letter-spacing: 1.2px;
-            margin: 0;
-        }
-        a {
-            color: #ebf7f4;
-        }
-        .body--ready {
-            background: -webkit-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 0%);
-            background: -moz-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 0%);
-            background: -o-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 0%);
-            background: -ms-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 0%);
-            background: linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 0%);
-        }
-         .body--ready1 {
-            background: -webkit-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 30%);
-            background: -moz-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 30%);
-            background: -o-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 30%);
-            background: -ms-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 30%);
-            background: linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 30%);
-        }
-        .body--ready2 {
-            background: -webkit-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 60%);
-            background: -moz-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 60%);
-            background: -o-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 60%);
-            background: -ms-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 60%);
-            background: linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 60%);
-        }
-        .body--ready3 {
-            background: -webkit-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 90%);
-            background: -moz-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 90%);
-            background: -o-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 90%);
-            background: -ms-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 90%);
-            background: linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 90%);
+            background: linear-gradient(160deg, #ff9ec7 0%, #e84a7f 38%, #8b2d5c 72%, #3d1a3d 100%);
+            background-attachment: fixed;
+            color: #fff;
+            overflow: hidden;
         }
 
-        .body--ready4 {
-            background: -webkit-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
-            background: -moz-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
-            background: -o-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
-            background: -ms-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
-            background: linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
-        }                
-/*         .text {
-    position: fixed;
-    bottom: 100px;
-    text-align: center;
-    width: 100%;
-} */
+        /* ===== 全屏粒子画布（背景层） ===== */
         .canvas {
-            margin: 0 auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
             display: block;
         }
-        img#logo {
-            width: 128px;
-            background-size: cover;
-            border-radius: 200px;
-            box-shadow: 0px 0px 40px rgba(63, 81, 181, 0.72);
-            border: 3px solid #00a0ff;
-            opacity: 1;
-            margin: 0 auto;
-            margin-top: 45px;
-            margin-bottom: 20px;
-            transition: all 1.0s;
-        }
-        #logo:hover {
-            box-shadow: 0 0 10px #fff;
-            -webkit-box-shadow: 0 0 19px #fff;
-            transform: rotate(360deg);
-            -ms-transform: rotate(360deg); /* IE 9 */
-            -moz-transform: rotate(360deg); /* Firefox */
-            -webkit-transform: rotate(360deg); /* Safari 和 Chrome */
-            -o-transform: rotate(360deg); /* Opera */
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-        }
-        .cs {
+
+        /* ===== 内容覆盖层 ===== */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            margin: 0 auto;
-            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 36px 20px 28px;
+            box-sizing: border-box;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .overlay > * { pointer-events: auto; }
+
+        /* ===== 顶部头像 + 标题 ===== */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
         }
-         .music {
+        .profile-img {
+            width: 132px;
+            height: 132px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 0 0 6px rgba(255, 182, 209, 0.35),
+                        0 10px 40px rgba(60, 10, 40, 0.55);
+            opacity: 1;
+            transition: all 1.0s;
+            animation: glow 3.5s ease-in-out infinite;
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 0 6px rgba(255, 182, 209, 0.35), 0 10px 40px rgba(60, 10, 40, 0.55); }
+            50%      { box-shadow: 0 0 0 14px rgba(255, 182, 209, 0.12), 0 10px 50px rgba(196, 69, 105, 0.7); }
+        }
+        .profile-img:hover {
+            transform: rotate(360deg);
+            box-shadow: 0 0 22px #fff;
+        }
+        .title {
+            margin: 20px 0 6px;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+        }
+        .tagline {
+            margin: 0;
+            font-size: 15px;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.88);
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== 玻璃拟态卡片通用 ===== */
+        .card {
+            background: rgba(255, 255, 255, 0.13);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(40, 5, 30, 0.35);
+        }
+
+        /* ===== 时光计数卡 ===== */
+        .counter-card {
+            padding: 18px 26px 22px;
+            text-align: center;
+            max-width: 520px;
             width: 100%;
-            margin: 0 auto;          
-            position: absolute;
-            bottom: 0;
+        }
+        .card-label {
+            margin: 0 0 14px;
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+        .counter-grid {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            padding: 12px 14px;
+            min-width: 66px;
             text-align: center;
         }
-        .text {
+        .stat .num {
+            display: block;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+        .stat label {
+            display: block;
+            font-size: 12px;
+            margin-top: 6px;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        /* ===== 纪念日倒计时小卡 ===== */
+        .anni-card {
+            margin-top: 12px;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.92);
+        }
+        .anni-card .anni-icon { font-size: 16px; }
+        .anni-num {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffe4ec;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ===== 音乐按钮 ===== */
+        .music-btn {
             position: fixed;
-            bottom: 80px;
-            text-align: center;
-            width: 100%;
-            font-weight: bold;
+            bottom: 24px;
+            right: 24px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
         }
-        .text-right {
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.08);
+        }
+        .music-btn.playing {
+            background: rgba(255, 182, 209, 0.45);
+            animation: musicPulse 2s ease-in-out infinite;
+        }
+        @keyframes musicPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 182, 209, 0.5); }
+            50%      { box-shadow: 0 0 0 14px rgba(255, 182, 209, 0); }
+        }
+
+        /* ===== Toast 提示（替代 alert） ===== */
+        .toast {
             position: fixed;
-            bottom: 50px;
-            text-align: right;
-            width: 100%;
-            font-weight: bold;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-120px);
+            background: rgba(255, 255, 255, 0.95);
+            color: #c44569;
+            padding: 13px 28px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            box-shadow: 0 10px 30px rgba(40, 5, 30, 0.3);
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            white-space: nowrap;
+            max-width: 90vw;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 480px) {
+            .title { font-size: 21px; letter-spacing: 3px; }
+            .tagline { font-size: 13px; }
+            .stat { min-width: 56px; padding: 10px 10px; }
+            .stat .num { font-size: 23px; }
+            .counter-card { padding: 16px 16px 20px; }
         }
     </style>
-
 </head>
-
 <body>
-<!--更改为你女朋友的头像-->
-<div class="cs">
-    <img src="pic.jpg" id="logo">
-</div>
-<div class="music">
-    <audio controls>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>   
-</div>
-<canvas class="canvas" width="1820" height="905"></canvas>
-<p class="text" style="color: #FFCCCC;">
-    小公主，很高兴，很幸运与你相遇！
-    <br/>
-    我们相处的时光已有：
-    <br/>
-    <span id="span_dt_dt"></span>
-</p>
 
-<script language="javascript">
+<!-- 粒子动画画布（背景） -->
+<canvas class="canvas"></canvas>
+
+<!-- 内容覆盖层 -->
+<div class="overlay">
+    <header class="hero">
+        <img src="pic.jpg" class="profile-img" alt="小公主">
+        <h1 class="title">致亲爱的小公主</h1>
+        <p class="tagline">很高兴，很幸运与你相遇 ♥</p>
+    </header>
+
+    <div class="bottom">
+        <div class="card counter-card">
+            <p class="card-label">我们相处的时光已有</p>
+            <div class="counter-grid">
+                <div class="stat"><span class="num" id="days">0</span><label>天</label></div>
+                <div class="stat"><span class="num" id="hours">00</span><label>时</label></div>
+                <div class="stat"><span class="num" id="minutes">00</span><label>分</label></div>
+                <div class="stat"><span class="num" id="seconds">00</span><label>秒</label></div>
+            </div>
+        </div>
+        <div class="card anni-card">
+            <span class="anni-icon">✨</span>
+            <span>距下一个相恋纪念日还有</span>
+            <span class="anni-num" id="anniDays">0</span>
+            <span>天</span>
+        </div>
+    </div>
+</div>
+
+<!-- 音乐 -->
+<button class="music-btn" id="musicBtn" aria-label="背景音乐">♪</button>
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+    /* ===== 时光计数器 ===== */
     function show_date_time() {
-        window.setTimeout("show_date_time()", 1000);
-        BirthDay = new Date("1/7/2024 14:00:00");//这个日期是可以修改的
-        today = new Date();
-        timeold = (today.getTime() - BirthDay.getTime());
-        sectimeold = timeold / 1000
-        secondsold = Math.floor(sectimeold);
-        msPerDay = 24 * 60 * 60 * 1000
-        e_daysold = timeold / msPerDay
-        daysold = Math.floor(e_daysold);
-        e_hrsold = (e_daysold - daysold) * 24;
-        hrsold = Math.floor(e_hrsold);
-        e_minsold = (e_hrsold - hrsold) * 60;
-        minsold = Math.floor((e_hrsold - hrsold) * 60);
-        seconds = Math.floor((e_minsold - minsold) * 60);
-        span_dt_dt.innerHTML = daysold + "天  " + hrsold + "时  " + minsold + "分  " + seconds + "秒  ";
+        window.setTimeout(show_date_time, 1000);
+        var BirthDay = new Date("1/7/2024 14:00:00"); // 相恋日期
+        var today = new Date();
+        var timeold = today.getTime() - BirthDay.getTime();
+        var msPerDay = 24 * 60 * 60 * 1000;
+        var e_daysold = timeold / msPerDay;
+        var daysold = Math.floor(e_daysold);
+        var e_hrsold = (e_daysold - daysold) * 24;
+        var hrsold = Math.floor(e_hrsold);
+        var e_minsold = (e_hrsold - hrsold) * 60;
+        var minsold = Math.floor(e_minsold);
+        var seconds = Math.floor((e_minsold - minsold) * 60);
+        document.getElementById('days').textContent = daysold;
+        document.getElementById('hours').textContent = String(hrsold).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minsold).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
     }
     show_date_time();
-</script>
-<script>
+
+    /* ===== 纪念日倒计时（每年 1/7） ===== */
+    function next_anniversary() {
+        var today = new Date();
+        var year = today.getFullYear();
+        var anni = new Date(year, 0, 7, 14, 0, 0);
+        if (anni < today) {
+            anni = new Date(year + 1, 0, 7, 14, 0, 0);
+        }
+        var days = Math.ceil((anni.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+        document.getElementById('anniDays').textContent = days;
+    }
+    next_anniversary();
+
+    /* ===== Toast 提示 ===== */
+    function showToast(message) {
+        var toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(function () {
+            toast.classList.remove('show');
+        }, 3200);
+    }
+
+    /* ===== 音乐播放控制 ===== */
+    (function () {
+        var music = document.getElementById('bgMusic');
+        var btn = document.getElementById('musicBtn');
+        var playing = false;
+        btn.addEventListener('click', function () {
+            if (playing) {
+                music.pause();
+                btn.classList.remove('playing');
+            } else {
+                music.play().catch(function () {});
+                btn.classList.add('playing');
+            }
+            playing = !playing;
+        });
+    })();
+
+    /* ===== 粒子动画引擎 ===== */
     var S = {
         init: function () {
             S.Drawing.init('.canvas');
-            var a =Math.floor(Math.random() * 4+1);
-			//想说的话
-            if (a==1) {
-                document.body.classList.add('body--ready');
-                alert("你想吃的我都做~"); 
+            var a = Math.floor(Math.random() * 4 + 1);
+            if (a == 1) {
+                showToast("你想吃的我都做~");
                 S.UI.simulate("碰见你|遇见你|很幸运|#countdown 3|#time");
-            }else if (a==2){
-                document.body.classList.add('body--ready1');
-                alert("你想去的地方我都陪你去~");
-                S.UI.simulate("想你啦|快快乐乐|开开心心|#countdown 3|#time");               
-            }else if (a==3) {
-                 document.body.classList.add('body--ready2');
-                 alert("你想做的事情我都陪你做~");
-                 S.UI.simulate("Nice|to|Meet|You|#countdown 3|#time");                
-            }else{
-                 document.body.classList.add('body--ready4');
-                 alert("小公主，天天快乐哦~");
-                 S.UI.simulate("何美女|小公主|何大厨|#countdown 3|#time");                
+            } else if (a == 2) {
+                showToast("你想去的地方我都陪你去~");
+                S.UI.simulate("想你啦|快快乐乐|开开心心|#countdown 3|#time");
+            } else if (a == 3) {
+                showToast("你想做的事情我都陪你做~");
+                S.UI.simulate("Nice|to|Meet|You|#countdown 3|#time");
+            } else {
+                showToast("小公主，天天快乐哦~");
+                S.UI.simulate("何美女|小公主|何大厨|#countdown 3|#time");
             }
             S.Drawing.loop(function () {
                 S.Shape.render();
@@ -213,14 +391,14 @@
                 requestFrame.call(window, this.loop.bind(this));
             },
             adjustCanvas: function () {
-                canvas.width = window.innerWidth - 100;
-                canvas.height = window.innerHeight - 30;
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
             },
             clearFrame: function () {
                 context.clearRect(0, 0, canvas.width, canvas.height);
             },
             getArea: function () {
-                return {w: canvas.width, h: canvas.height};
+                return { w: canvas.width, h: canvas.height };
             },
             drawCircle: function (p, c) {
                 context.fillStyle = c.render();
@@ -477,7 +655,7 @@
                     p += gap * 4 * shapeCanvas.width;
                 }
             }
-            return {dots: dots, w: w + fx, h: h + fy};
+            return { dots: dots, w: w + fx, h: h + fy };
         }
         function setFontSize(s) {
             shapeContext.font = 'bold ' + s + 'px ' + fontFamily;
@@ -489,7 +667,6 @@
             fit();
             window.addEventListener('resize', fit);
         }
-        // Init
         init();
         return {
             imageFile: function (url, callback) {
@@ -537,7 +714,7 @@
                         }));
                     }
                 }
-                return {dots: dots, w: width, h: height};
+                return { dots: dots, w: width, h: height };
             }
         };
     }());
@@ -616,7 +793,7 @@
                         dots[i].move(new S.Point({
                             x: Math.random() * a.w,
                             y: Math.random() * a.h,
-                            a: 0.3, //.4
+                            a: 0.3,
                             z: Math.random() * 4,
                             h: 0
                         }));
