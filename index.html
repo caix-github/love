@@ -4,810 +4,523 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>致亲爱的小公主</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="theme-color" content="#0a0a1a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; height: 100%; }
         body {
-            font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
-            letter-spacing: 1.2px;
-            background: linear-gradient(160deg, #ff9ec7 0%, #e84a7f 38%, #8b2d5c 72%, #3d1a3d 100%);
-            background-attachment: fixed;
+            background: #0a0a1a;
             color: #fff;
-            overflow: hidden;
+            font-family: "Noto Sans SC", "Helvetica Neue", "Luxi Sans", "Microsoft Yahei", sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            letter-spacing: 0.4px;
         }
 
-        /* ===== 全屏粒子画布（背景层） ===== */
-        .canvas {
+        /* ===== 星空背景 ===== */
+        #stars {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
+            z-index: 0;
+        }
+
+        /* ===== 主容器 ===== */
+        .container {
+            position: relative;
             z-index: 1;
-            display: block;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 36px 16px 110px;
         }
 
-        /* ===== 内容覆盖层 ===== */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 36px 20px 28px;
-            box-sizing: border-box;
-            z-index: 5;
-            pointer-events: none;
-        }
-        .overlay > * { pointer-events: auto; }
-
-        /* ===== 顶部头像 + 标题 ===== */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .profile-img {
-            width: 132px;
-            height: 132px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.85);
-            box-shadow: 0 0 0 6px rgba(255, 182, 209, 0.35),
-                        0 10px 40px rgba(60, 10, 40, 0.55);
-            opacity: 1;
-            transition: all 1.0s;
-            animation: glow 3.5s ease-in-out infinite;
-        }
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 0 6px rgba(255, 182, 209, 0.35), 0 10px 40px rgba(60, 10, 40, 0.55); }
-            50%      { box-shadow: 0 0 0 14px rgba(255, 182, 209, 0.12), 0 10px 50px rgba(196, 69, 105, 0.7); }
-        }
-        .profile-img:hover {
-            transform: rotate(360deg);
-            box-shadow: 0 0 22px #fff;
-        }
-        .title {
-            margin: 20px 0 6px;
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
-        }
-        .tagline {
-            margin: 0;
-            font-size: 15px;
-            letter-spacing: 3px;
-            color: rgba(255, 255, 255, 0.88);
-            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        /* ===== 玻璃拟态卡片通用 ===== */
+        /* ===== 玻璃卡片通用 ===== */
         .card {
-            background: rgba(255, 255, 255, 0.13);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            border-radius: 20px;
-            box-shadow: 0 12px 40px rgba(40, 5, 30, 0.35);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 18px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            margin-bottom: 16px;
         }
 
-        /* ===== 时光计数卡 ===== */
-        .counter-card {
-            padding: 18px 26px 22px;
-            text-align: center;
-            max-width: 520px;
-            width: 100%;
+        /* ===== Hero ===== */
+        .hero { text-align: center; padding: 16px 0 30px; }
+        .avatar {
+            width: 112px; height: 112px; object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 107, 157, 0.55);
+            box-shadow: 0 0 30px rgba(255, 107, 157, 0.35);
         }
-        .card-label {
-            margin: 0 0 14px;
-            font-size: 14px;
+        .hero-title {
+            font-family: "Dancing Script", cursive;
+            font-size: 56px; font-weight: 700;
+            margin: 14px 0 2px;
+            color: #fff;
+            text-shadow: 0 0 24px rgba(255, 107, 157, 0.5);
+            line-height: 1.1;
+        }
+        .hero-sub {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.75);
             letter-spacing: 3px;
-            color: rgba(255, 255, 255, 0.85);
+            font-size: 14px;
         }
-        .counter-grid {
-            display: flex;
+
+        /* ===== 区块标题 ===== */
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 107, 157, 0.9);
+            margin: 0 0 14px;
+            letter-spacing: 2px;
+        }
+
+        /* ===== 今日摘要 ===== */
+        .today p { margin: 5px 0; color: rgba(255, 255, 255, 0.85); font-size: 15px; }
+        .today .accent { color: #ff6b9d; font-weight: 600; }
+        .gen-btn {
+            margin-top: 14px;
+            background: rgba(255, 107, 157, 0.15);
+            border: 1px solid rgba(255, 107, 157, 0.5);
+            color: #ff6b9d;
+            padding: 8px 22px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: inherit;
+            letter-spacing: 1px;
+            transition: all 0.25s;
+        }
+        .gen-btn:hover { background: rgba(255, 107, 157, 0.3); }
+
+        /* ===== 我们的数字 ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
         }
         .stat {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
-            padding: 12px 14px;
-            min-width: 66px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 14px 8px;
             text-align: center;
         }
+        .stat .emoji { display: block; font-size: 20px; }
         .stat .num {
-            display: block;
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 1;
-            color: #fff;
-            font-variant-numeric: tabular-nums;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
-        }
-        .stat label {
-            display: block;
-            font-size: 12px;
-            margin-top: 6px;
-            letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.78);
-        }
-
-        /* ===== 纪念日倒计时小卡 ===== */
-        .anni-card {
-            margin-top: 12px;
-            padding: 10px 22px;
-            border-radius: 30px;
-            font-size: 14px;
-            letter-spacing: 2px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: rgba(255, 255, 255, 0.92);
-        }
-        .anni-card .anni-icon { font-size: 16px; }
-        .anni-num {
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffe4ec;
+            display: block; font-size: 24px; font-weight: 700;
+            color: #fff; margin: 4px 0;
             font-variant-numeric: tabular-nums;
         }
+        .stat .label { display: block; font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+        .stat .sub { display: block; font-size: 10px; color: rgba(255, 255, 255, 0.4); margin-top: 3px; }
 
-        .bottom {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* ===== 时光印记 ===== */
+        .imprint-block { text-align: center; }
+        .imprint-label { color: rgba(255, 255, 255, 0.85); margin: 0 0 10px; font-size: 15px; }
+        .imprint-big { margin: 8px 0; }
+        .big-num { font-size: 42px; font-weight: 700; color: #ff6b9d; font-variant-numeric: tabular-nums; }
+        .big-unit { font-size: 16px; color: rgba(255, 255, 255, 0.7); margin: 0 10px 0 2px; }
+        .imprint-time {
+            font-size: 16px; color: rgba(255, 255, 255, 0.82);
+            font-variant-numeric: tabular-nums; margin-top: 4px;
+        }
+        .imprint-date { font-size: 13px; color: rgba(255, 255, 255, 0.5); margin: 10px 0 0; }
+
+        /* ===== 故事时间线 ===== */
+        .timeline {
+            display: flex; align-items: center; justify-content: center;
+            gap: 6px; flex-wrap: wrap;
+        }
+        .tl-item { text-align: center; flex: 1; min-width: 90px; }
+        .tl-emoji { font-size: 26px; display: block; }
+        .tl-date { font-size: 13px; color: rgba(255, 255, 255, 0.7); display: block; margin-top: 4px; }
+        .tl-event { font-size: 14px; color: #ff6b9d; display: block; margin-top: 2px; }
+        .tl-sep { color: rgba(255, 255, 255, 0.25); font-size: 20px; }
+
+        /* ===== 纪念日 ===== */
+        .anni-item p { margin: 5px 0; color: rgba(255, 255, 255, 0.85); font-size: 15px; }
+        .anni-name { color: #ff6b9d; font-weight: 600; }
+        .anni-start { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
+
+        /* ===== 愿望清单 ===== */
+        .wish-list { list-style: none; padding: 0; margin: 0; }
+        .wish-list li {
+            padding: 9px 4px; color: rgba(255, 255, 255, 0.85); cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: color 0.2s;
+            user-select: none;
+        }
+        .wish-list li:last-child { border-bottom: none; }
+        .wish-list li:hover { color: #fff; }
+        .wish-list li.done { color: rgba(255, 255, 255, 0.45); }
+        .wish-list li.done .wish-text { text-decoration: line-through; }
+        .wish-list .mark { color: #ff6b9d; margin-right: 10px; font-weight: 700; }
+
+        /* ===== 照片墙 ===== */
+        .photo-grid { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .photo { position: relative; border-radius: 12px; overflow: hidden; }
+        .photo img { width: 100%; max-width: 200px; display: block; }
+        .photo-cap {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+            color: #fff; font-size: 13px; padding: 18px 10px 8px; text-align: center;
         }
 
-        /* ===== 音乐按钮 ===== */
-        .music-btn {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: #fff;
-            font-size: 22px;
-            cursor: pointer;
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
+        /* ===== 页脚 ===== */
+        .footer { text-align: center; color: rgba(255, 255, 255, 0.45); font-size: 13px; padding: 18px 0 0; }
+
+        /* ===== 浮动音乐按钮 ===== */
+        .fab {
+            position: fixed; bottom: 24px; right: 24px; z-index: 50;
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 1px solid rgba(255, 107, 157, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+            color: #ff6b9d;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            font-size: 20px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.25s;
         }
-        .music-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.08);
-        }
-        .music-btn.playing {
-            background: rgba(255, 182, 209, 0.45);
-            animation: musicPulse 2s ease-in-out infinite;
-        }
-        @keyframes musicPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 182, 209, 0.5); }
-            50%      { box-shadow: 0 0 0 14px rgba(255, 182, 209, 0); }
+        .fab:hover { background: rgba(255, 107, 157, 0.2); transform: scale(1.08); }
+        .fab.playing { color: #fff; animation: fabPulse 2s ease-in-out infinite; }
+        @keyframes fabPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 157, 0.5); }
+            50% { box-shadow: 0 0 0 12px rgba(255, 107, 157, 0); }
         }
 
-        /* ===== Toast 提示（替代 alert） ===== */
-        .toast {
-            position: fixed;
-            top: 28px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-120px);
-            background: rgba(255, 255, 255, 0.95);
-            color: #c44569;
-            padding: 13px 28px;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            box-shadow: 0 10px 30px rgba(40, 5, 30, 0.3);
-            z-index: 100;
-            opacity: 0;
-            transition: all 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
-            pointer-events: none;
-            white-space: nowrap;
-            max-width: 90vw;
+        /* ===== 纪念卡弹窗 ===== */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7);
+            z-index: 100; display: none;
+            align-items: center; justify-content: center;
+            backdrop-filter: blur(4px);
         }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
+        .modal-overlay.show { display: flex; }
+        .mem-card {
+            background: linear-gradient(150deg, rgba(255, 107, 157, 0.18), rgba(10, 10, 26, 0.92));
+            border: 1px solid rgba(255, 107, 157, 0.4);
+            border-radius: 20px;
+            padding: 32px 26px;
+            text-align: center;
+            max-width: 320px; width: 90%;
+            animation: memIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
+        @keyframes memIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .mem-card img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 107, 157, 0.6); }
+        .mem-card h3 { font-family: "Dancing Script", cursive; font-size: 34px; margin: 12px 0 4px; }
+        .mem-card .mem-sub { font-size: 13px; color: rgba(255, 255, 255, 0.7); margin: 0 0 10px; }
+        .mem-card .mem-big { font-size: 30px; color: #ff6b9d; font-weight: 700; margin: 6px 0; }
+        .mem-card .mem-days-label { font-size: 13px; color: rgba(255, 255, 255, 0.8); }
+        .mem-card .mem-date { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-top: 12px; }
+        .mem-close {
+            margin-top: 18px;
+            background: rgba(255, 107, 157, 0.2);
+            border: 1px solid rgba(255, 107, 157, 0.5);
+            color: #fff; padding: 8px 26px; border-radius: 20px; cursor: pointer;
+            font-family: inherit; font-size: 14px;
+        }
+        .mem-close:hover { background: rgba(255, 107, 157, 0.35); }
 
         /* ===== 响应式 ===== */
         @media (max-width: 480px) {
-            .title { font-size: 21px; letter-spacing: 3px; }
-            .tagline { font-size: 13px; }
-            .stat { min-width: 56px; padding: 10px 10px; }
-            .stat .num { font-size: 23px; }
-            .counter-card { padding: 16px 16px 20px; }
+            .hero-title { font-size: 42px; }
+            .stats-grid { gap: 8px; }
+            .stat .num { font-size: 20px; }
+            .big-num { font-size: 34px; }
+            .container { padding: 24px 14px 100px; }
         }
     </style>
 </head>
 <body>
 
-<!-- 粒子动画画布（背景） -->
-<canvas class="canvas"></canvas>
+<!-- 星空背景 -->
+<canvas id="stars"></canvas>
 
-<!-- 内容覆盖层 -->
-<div class="overlay">
+<div class="container">
+
+    <!-- Hero -->
     <header class="hero">
-        <img src="pic.jpg" class="profile-img" alt="小公主">
-        <h1 class="title">致亲爱的小公主</h1>
-        <p class="tagline">很高兴，很幸运与你相遇 ♥</p>
+        <img src="pic.jpg" class="avatar" alt="小公主">
+        <h1 class="hero-title">致 小公主</h1>
+        <p class="hero-sub">很高兴，很幸运与你相遇</p>
     </header>
 
-    <div class="bottom">
-        <div class="card counter-card">
-            <p class="card-label">我们相处的时光已有</p>
-            <div class="counter-grid">
-                <div class="stat"><span class="num" id="days">0</span><label>天</label></div>
-                <div class="stat"><span class="num" id="hours">00</span><label>时</label></div>
-                <div class="stat"><span class="num" id="minutes">00</span><label>分</label></div>
-                <div class="stat"><span class="num" id="seconds">00</span><label>秒</label></div>
+    <!-- 今日摘要 -->
+    <section class="card today">
+        <h2 class="section-title">今日摘要</h2>
+        <p>下一次重要日子：第 <span class="accent" id="anniCount">—</span> 个相恋纪念日</p>
+        <p>还有 <span class="accent" id="anniDays">—</span> 天，先把今天记下来。</p>
+        <button class="gen-btn" id="genBtn">生成纪念卡</button>
+    </section>
+
+    <!-- 我们的数字 -->
+    <section class="card">
+        <h2 class="section-title">我们的数字</h2>
+        <div class="stats-grid">
+            <div class="stat"><span class="emoji">💕</span><span class="num" id="loveDays">0</span><span class="label">相恋天数</span></div>
+            <div class="stat"><span class="emoji">🗓️</span><span class="num">1</span><span class="label">里程碑节点</span></div>
+            <div class="stat"><span class="emoji">📷</span><span class="num">1</span><span class="label">照片回忆</span></div>
+            <div class="stat"><span class="emoji">✅</span><span class="num" id="wishRate">0%</span><span class="label">愿望完成率</span></div>
+            <div class="stat"><span class="emoji">🌙</span><span class="num" id="loveWeeks">0</span><span class="label">相恋周数</span></div>
+            <div class="stat"><span class="emoji">🏠</span><span class="num" id="visits">1</span><span class="label">本机访问次数</span><span class="sub" id="visitsSub">首次访问 · 仅本设备</span></div>
+        </div>
+    </section>
+
+    <!-- 时光印记 -->
+    <section class="card">
+        <h2 class="section-title">时光印记</h2>
+        <div class="imprint-block">
+            <p class="imprint-label">💕 相恋时光</p>
+            <div class="imprint-big">
+                <span class="big-num" id="ly">0</span><span class="big-unit">年</span>
+                <span class="big-num" id="ld">0</span><span class="big-unit">天</span>
+            </div>
+            <div class="imprint-time">
+                <span id="lh">00</span> 时 <span id="lm">00</span> 分 <span id="ls">00</span> 秒
+            </div>
+            <p class="imprint-date">2024-01-07</p>
+        </div>
+    </section>
+
+    <!-- 我们的故事 -->
+    <section class="card">
+        <h2 class="section-title">我们的故事</h2>
+        <div class="timeline">
+            <div class="tl-item">
+                <span class="tl-emoji">💕</span>
+                <span class="tl-date">2024.01.07</span>
+                <span class="tl-event">相恋</span>
+            </div>
+            <span class="tl-sep">———</span>
+            <div class="tl-item">
+                <span class="tl-emoji">✨</span>
+                <span class="tl-date">此刻</span>
+                <span class="tl-event">相伴</span>
             </div>
         </div>
-        <div class="card anni-card">
-            <span class="anni-icon">✨</span>
-            <span>距下一个相恋纪念日还有</span>
-            <span class="anni-num" id="anniDays">0</span>
-            <span>天</span>
+    </section>
+
+    <!-- 纪念日 -->
+    <section class="card">
+        <h2 class="section-title">纪念日</h2>
+        <div class="anni-item">
+            <p class="anni-name">💕 相恋纪念日</p>
+            <p>✨ 距离第 <span style="color:#ff6b9d;font-weight:600;" id="anniCount2">—</span> 个相恋纪念日，还有 <span style="color:#ff6b9d;font-weight:600;" id="anniDays2">—</span> 天</p>
+            <p class="anni-start">起始于：2024-01-07</p>
         </div>
-    </div>
+    </section>
+
+    <!-- 愿望清单 -->
+    <section class="card">
+        <h2 class="section-title">愿望清单</h2>
+        <ul class="wish-list" id="wishList">
+            <li data-id="0"><span class="mark">○</span><span class="wish-text">你想吃的我都做</span></li>
+            <li data-id="1"><span class="mark">○</span><span class="wish-text">你想去的地方我都陪你去</span></li>
+            <li data-id="2"><span class="mark">○</span><span class="wish-text">你想做的事情我都陪你做</span></li>
+            <li data-id="3"><span class="mark">○</span><span class="wish-text">小公主，天天快乐</span></li>
+        </ul>
+    </section>
+
+    <!-- 照片墙 -->
+    <section class="card">
+        <h2 class="section-title">📷 照片墙</h2>
+        <div class="photo-grid">
+            <div class="photo">
+                <img src="pic.jpg" alt="小公主">
+                <span class="photo-cap">小公主</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>♥ 致亲爱的小公主 ♥</p>
+    </footer>
 </div>
 
-<!-- 音乐 -->
-<button class="music-btn" id="musicBtn" aria-label="背景音乐">♪</button>
+<!-- 浮动音乐按钮 -->
+<button class="fab" id="musicBtn" aria-label="背景音乐">♪</button>
 <audio id="bgMusic" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+<!-- 纪念卡弹窗 -->
+<div class="modal-overlay" id="memModal">
+    <div class="mem-card">
+        <img src="pic.jpg" alt="小公主">
+        <h3>致 小公主</h3>
+        <p class="mem-sub">很高兴，很幸运与你相遇</p>
+        <p class="mem-big" id="memDays">0</p>
+        <p class="mem-days-label">我们相处的时光（天）</p>
+        <p class="mem-date">相恋于 2024-01-07</p>
+        <button class="mem-close" id="memClose">收下纪念卡</button>
+    </div>
+</div>
 
 <script>
-    /* ===== 时光计数器 ===== */
-    function show_date_time() {
-        window.setTimeout(show_date_time, 1000);
-        var BirthDay = new Date("1/7/2024 14:00:00"); // 相恋日期
-        var today = new Date();
-        var timeold = today.getTime() - BirthDay.getTime();
-        var msPerDay = 24 * 60 * 60 * 1000;
-        var e_daysold = timeold / msPerDay;
-        var daysold = Math.floor(e_daysold);
-        var e_hrsold = (e_daysold - daysold) * 24;
-        var hrsold = Math.floor(e_hrsold);
-        var e_minsold = (e_hrsold - hrsold) * 60;
-        var minsold = Math.floor(e_minsold);
-        var seconds = Math.floor((e_minsold - minsold) * 60);
-        document.getElementById('days').textContent = daysold;
-        document.getElementById('hours').textContent = String(hrsold).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(minsold).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-    }
-    show_date_time();
-
-    /* ===== 纪念日倒计时（每年 1/7） ===== */
-    function next_anniversary() {
-        var today = new Date();
-        var year = today.getFullYear();
-        var anni = new Date(year, 0, 7, 14, 0, 0);
-        if (anni < today) {
-            anni = new Date(year + 1, 0, 7, 14, 0, 0);
-        }
-        var days = Math.ceil((anni.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-        document.getElementById('anniDays').textContent = days;
-    }
-    next_anniversary();
-
-    /* ===== Toast 提示 ===== */
-    function showToast(message) {
-        var toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.classList.add('show');
-        setTimeout(function () {
-            toast.classList.remove('show');
-        }, 3200);
-    }
-
-    /* ===== 音乐播放控制 ===== */
-    (function () {
-        var music = document.getElementById('bgMusic');
-        var btn = document.getElementById('musicBtn');
-        var playing = false;
-        btn.addEventListener('click', function () {
-            if (playing) {
-                music.pause();
-                btn.classList.remove('playing');
-            } else {
-                music.play().catch(function () {});
-                btn.classList.add('playing');
-            }
-            playing = !playing;
-        });
-    })();
-
-    /* ===== 粒子动画引擎 ===== */
-    var S = {
-        init: function () {
-            S.Drawing.init('.canvas');
-            var a = Math.floor(Math.random() * 4 + 1);
-            if (a == 1) {
-                showToast("你想吃的我都做~");
-                S.UI.simulate("碰见你|遇见你|很幸运|#countdown 3|#time");
-            } else if (a == 2) {
-                showToast("你想去的地方我都陪你去~");
-                S.UI.simulate("想你啦|快快乐乐|开开心心|#countdown 3|#time");
-            } else if (a == 3) {
-                showToast("你想做的事情我都陪你做~");
-                S.UI.simulate("Nice|to|Meet|You|#countdown 3|#time");
-            } else {
-                showToast("小公主，天天快乐哦~");
-                S.UI.simulate("何美女|小公主|何大厨|#countdown 3|#time");
-            }
-            S.Drawing.loop(function () {
-                S.Shape.render();
+/* ===== 星空背景（canvas 粒子，呼应原页粒子 DNA） ===== */
+(function () {
+    var c = document.getElementById('stars');
+    var ctx = c.getContext('2d');
+    var stars = [];
+    function resize() {
+        c.width = window.innerWidth;
+        c.height = window.innerHeight;
+        var count = Math.floor((c.width * c.height) / 5500);
+        stars = [];
+        for (var i = 0; i < count; i++) {
+            stars.push({
+                x: Math.random() * c.width,
+                y: Math.random() * c.height,
+                r: Math.random() * 1.3 + 0.2,
+                a: Math.random(),
+                tw: Math.random() * 0.015 + 0.004,
+                dir: Math.random() > 0.5 ? 1 : -1,
+                vy: Math.random() * 0.08 + 0.02
             });
         }
-    };
-    S.Drawing = (function () {
-        var canvas,
-            context,
-            renderFn,
-            requestFrame = window.requestAnimationFrame ||
-                window.webkitRequestAnimationFrame ||
-                window.mozRequestAnimationFrame ||
-                window.oRequestAnimationFrame ||
-                window.msRequestAnimationFrame ||
-                function (callback) {
-                    window.setTimeout(callback, 1000 / 60);
-                };
-        return {
-            init: function (el) {
-                canvas = document.querySelector(el);
-                context = canvas.getContext('2d');
-                this.adjustCanvas();
-                window.addEventListener('resize', function (e) {
-                    S.Drawing.adjustCanvas();
-                });
-            },
-            loop: function (fn) {
-                renderFn = !renderFn ? fn : renderFn;
-                this.clearFrame();
-                renderFn();
-                requestFrame.call(window, this.loop.bind(this));
-            },
-            adjustCanvas: function () {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            },
-            clearFrame: function () {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-            },
-            getArea: function () {
-                return { w: canvas.width, h: canvas.height };
-            },
-            drawCircle: function (p, c) {
-                context.fillStyle = c.render();
-                context.beginPath();
-                context.arc(p.x, p.y, p.z, 0, 2 * Math.PI, true);
-                context.closePath();
-                context.fill();
-            }
-        };
-    }());
-    S.UI = (function () {
-        var interval,
-            currentAction,
-            time,
-            maxShapeSize = 30,
-            sequence = [],
-            cmd = '#';
-        function formatTime(date) {
-            var h = date.getHours(),
-                m = date.getMinutes(),
-                m = m < 10 ? '0' + m : m;
-            return h + ':' + m;
+    }
+    function draw() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        for (var i = 0; i < stars.length; i++) {
+            var s = stars[i];
+            s.a += s.tw * s.dir;
+            if (s.a > 1) { s.a = 1; s.dir = -1; }
+            if (s.a < 0.12) { s.a = 0.12; s.dir = 1; }
+            s.y += s.vy;
+            if (s.y > c.height) s.y = 0;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, 2 * Math.PI);
+            ctx.fillStyle = 'rgba(255,255,255,' + s.a + ')';
+            ctx.fill();
         }
-        function getValue(value) {
-            return value && value.split(' ')[1];
-        }
-        function getAction(value) {
-            value = value && value.split(' ')[0];
-            return value && value[0] === cmd && value.substring(1);
-        }
-        function timedAction(fn, delay, max, reverse) {
-            clearInterval(interval);
-            currentAction = reverse ? max : 1;
-            fn(currentAction);
-            if (!max || (!reverse && currentAction < max) || (reverse && currentAction > 0)) {
-                interval = setInterval(function () {
-                    currentAction = reverse ? currentAction - 1 : currentAction + 1;
-                    fn(currentAction);
-                    if ((!reverse && max && currentAction === max) || (reverse && currentAction === 0)) {
-                        clearInterval(interval);
-                    }
-                }, delay);
-            }
-        }
-        function performAction(value) {
-            var action,
-                value,
-                current;
-            sequence = typeof (value) === 'object' ? value : sequence.concat(value.split('|'));
-            timedAction(function (index) {
-                current = sequence.shift();
-                action = getAction(current);
-                value = getValue(current);
-                switch (action) {
-                    case 'countdown':
-                        value = parseInt(value) || 10;
-                        value = value > 0 ? value : 10;
-                        timedAction(function (index) {
-                            if (index === 0) {
-                                if (sequence.length === 0) {
-                                    S.Shape.switchShape(S.ShapeBuilder.letter(''));
-                                } else {
-                                    performAction(sequence);
-                                }
-                            } else {
-                                S.Shape.switchShape(S.ShapeBuilder.letter(index), true);
-                            }
-                        }, 1000, value, true);
-                        break;
-                    case 'rectangle':
-                        value = value && value.split('x');
-                        value = (value && value.length === 2) ? value : [maxShapeSize, maxShapeSize / 2];
-                        S.Shape.switchShape(S.ShapeBuilder.rectangle(Math.min(maxShapeSize, parseInt(value[0])), Math.min(maxShapeSize, parseInt(value[1]))));
-                        break;
-                    case 'circle':
-                        value = parseInt(value) || maxShapeSize;
-                        value = Math.min(value, maxShapeSize);
-                        S.Shape.switchShape(S.ShapeBuilder.circle(value));
-                        break;
-                    case 'time':
-                        var t = formatTime(new Date());
-                        if (sequence.length > 0) {
-                            S.Shape.switchShape(S.ShapeBuilder.letter(t));
-                        } else {
-                            timedAction(function () {
-                                t = formatTime(new Date());
-                                if (t !== time) {
-                                    time = t;
-                                    S.Shape.switchShape(S.ShapeBuilder.letter(time));
-                                }
-                            }, 1000);
-                        }
-                        break;
-                    default:
-                        S.Shape.switchShape(S.ShapeBuilder.letter(current[0] === cmd ? 'HacPai' : current));
-                }
-            }, 2000, sequence.length);
-        }
-        return {
-            simulate: function (action) {
-                performAction(action);
-            }
-        };
-    }());
-    S.Point = function (args) {
-        this.x = args.x;
-        this.y = args.y;
-        this.z = args.z;
-        this.a = args.a;
-        this.h = args.h;
-    };
-    S.Color = function (r, g, b, a) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        this.a = a;
-    };
-    S.Color.prototype = {
-        render: function () {
-            return 'rgba(' + this.r + ',' + +this.g + ',' + this.b + ',' + this.a + ')';
-        }
-    };
-    S.Dot = function (x, y) {
-        this.p = new S.Point({
-            x: x,
-            y: y,
-            z: 5,
-            a: 1,
-            h: 0
+        requestAnimationFrame(draw);
+    }
+    resize();
+    draw();
+    window.addEventListener('resize', resize);
+})();
+
+/* ===== 时光计数 + 纪念日 ===== */
+var LOVE_START = new Date("2024-01-07T14:00:00");
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function tick() {
+    var now = new Date();
+    var diff = now.getTime() - LOVE_START.getTime();
+
+    /* 年 / 天 分拆 */
+    var years = now.getFullYear() - LOVE_START.getFullYear();
+    var anniThisYear = new Date(LOVE_START);
+    anniThisYear.setFullYear(now.getFullYear());
+    if (now < anniThisYear) { years--; anniThisYear.setFullYear(now.getFullYear() - 1); }
+    var remMs = now.getTime() - anniThisYear.getTime();
+    var days = Math.floor(remMs / 86400000);
+    var hours = Math.floor((remMs % 86400000) / 3600000);
+    var mins = Math.floor((remMs % 3600000) / 60000);
+    var secs = Math.floor((remMs % 60000) / 1000);
+
+    document.getElementById('ly').textContent = years;
+    document.getElementById('ld').textContent = days;
+    document.getElementById('lh').textContent = pad(hours);
+    document.getElementById('lm').textContent = pad(mins);
+    document.getElementById('ls').textContent = pad(secs);
+
+    /* 总天数 / 周数 */
+    var totalDays = Math.floor(diff / 86400000);
+    document.getElementById('loveDays').textContent = totalDays;
+    document.getElementById('loveWeeks').textContent = Math.floor(totalDays / 7);
+    document.getElementById('memDays').textContent = totalDays;
+
+    /* 下一个相恋纪念日 */
+    var nextAnni = new Date(LOVE_START);
+    nextAnni.setFullYear(now.getFullYear());
+    if (nextAnni < now) nextAnni.setFullYear(now.getFullYear() + 1);
+    var anniDaysLeft = Math.ceil((nextAnni.getTime() - now.getTime()) / 86400000);
+    var anniOrdinal = nextAnni.getFullYear() - LOVE_START.getFullYear();
+    document.getElementById('anniDays').textContent = anniDaysLeft;
+    document.getElementById('anniCount').textContent = anniOrdinal;
+    document.getElementById('anniDays2').textContent = anniDaysLeft;
+    document.getElementById('anniCount2').textContent = anniOrdinal;
+}
+tick();
+setInterval(tick, 1000);
+
+/* ===== 愿望清单（可点击切换 + 本地持久化 + 完成率） ===== */
+(function () {
+    var items = document.querySelectorAll('#wishList li');
+    var state = {};
+    try { state = JSON.parse(localStorage.getItem('love_wishes') || '{}'); } catch (e) {}
+    function refreshRate() {
+        var done = 0;
+        items.forEach(function (li) {
+            if (li.classList.contains('done')) done++;
         });
-        this.e = 0.07;
-        this.s = true;
-        this.c = new S.Color(255, 255, 255, this.p.a);
-        this.t = this.clone();
-        this.q = [];
-    };
-    S.Dot.prototype = {
-        clone: function () {
-            return new S.Point({
-                x: this.x,
-                y: this.y,
-                z: this.z,
-                a: this.a,
-                h: this.h
-            });
-        },
-        _draw: function () {
-            this.c.a = this.p.a;
-            S.Drawing.drawCircle(this.p, this.c);
-        },
-        _moveTowards: function (n) {
-            var details = this.distanceTo(n, true),
-                dx = details[0],
-                dy = details[1],
-                d = details[2],
-                e = this.e * d;
-            if (this.p.h === -1) {
-                this.p.x = n.x;
-                this.p.y = n.y;
-                return true;
-            }
-            if (d > 1) {
-                this.p.x -= ((dx / d) * e);
-                this.p.y -= ((dy / d) * e);
-            } else {
-                if (this.p.h > 0) {
-                    this.p.h--;
-                } else {
-                    return true;
-                }
-            }
-            return false;
-        },
-        _update: function () {
-            if (this._moveTowards(this.t)) {
-                var p = this.q.shift();
-                if (p) {
-                    this.t.x = p.x || this.p.x;
-                    this.t.y = p.y || this.p.y;
-                    this.t.z = p.z || this.p.z;
-                    this.t.a = p.a || this.p.a;
-                    this.p.h = p.h || 0;
-                } else {
-                    if (this.s) {
-                        this.p.x -= Math.sin(Math.random() * 3.142);
-                        this.p.y -= Math.sin(Math.random() * 3.142);
-                    } else {
-                        this.move(new S.Point({
-                            x: this.p.x + (Math.random() * 50) - 25,
-                            y: this.p.y + (Math.random() * 50) - 25
-                        }));
-                    }
-                }
-            }
-            d = this.p.a - this.t.a;
-            this.p.a = Math.max(0.1, this.p.a - (d * 0.05));
-            d = this.p.z - this.t.z;
-            this.p.z = Math.max(1, this.p.z - (d * 0.05));
-        },
-        distanceTo: function (n, details) {
-            var dx = this.p.x - n.x,
-                dy = this.p.y - n.y,
-                d = Math.sqrt(dx * dx + dy * dy);
-            return details ? [dx, dy, d] : d;
-        },
-        move: function (p, avoidStatic) {
-            if (!avoidStatic || (avoidStatic && this.distanceTo(p) > 1)) {
-                this.q.push(p);
-            }
-        },
-        render: function () {
-            this._update();
-            this._draw();
+        document.getElementById('wishRate').textContent = Math.round(done / items.length * 100) + '%';
+    }
+    items.forEach(function (li) {
+        var id = li.getAttribute('data-id');
+        var mark = li.querySelector('.mark');
+        if (state[id]) {
+            li.classList.add('done');
+            mark.textContent = '✓';
         }
-    };
-    S.ShapeBuilder = (function () {
-        var gap = 13,
-            shapeCanvas = document.createElement('canvas'),
-            shapeContext = shapeCanvas.getContext('2d'),
-            fontSize = 500,
-            fontFamily = 'Avenir, Helvetica Neue, Helvetica, Arial, sans-serif';
-        function fit() {
-            shapeCanvas.width = Math.floor(window.innerWidth / gap) * gap;
-            shapeCanvas.height = Math.floor(window.innerHeight / gap) * gap;
-            shapeContext.fillStyle = 'red';
-            shapeContext.textBaseline = 'middle';
-            shapeContext.textAlign = 'center';
+        li.addEventListener('click', function () {
+            li.classList.toggle('done');
+            mark.textContent = li.classList.contains('done') ? '✓' : '○';
+            state[id] = li.classList.contains('done');
+            try { localStorage.setItem('love_wishes', JSON.stringify(state)); } catch (e) {}
+            refreshRate();
+        });
+    });
+    refreshRate();
+})();
+
+/* ===== 本机访问次数（localStorage） ===== */
+(function () {
+    var v = 1;
+    try {
+        v = parseInt(localStorage.getItem('love_visits') || '0', 10) + 1;
+        localStorage.setItem('love_visits', String(v));
+    } catch (e) {}
+    document.getElementById('visits').textContent = v;
+    document.getElementById('visitsSub').textContent = v === 1 ? '首次访问 · 仅本设备' : '第 ' + v + ' 次访问 · 仅本设备';
+})();
+
+/* ===== 音乐播放控制 ===== */
+(function () {
+    var music = document.getElementById('bgMusic');
+    var btn = document.getElementById('musicBtn');
+    var playing = false;
+    btn.addEventListener('click', function () {
+        if (playing) {
+            music.pause();
+            btn.classList.remove('playing');
+        } else {
+            music.play().catch(function () {});
+            btn.classList.add('playing');
         }
-        function processCanvas() {
-            var pixels = shapeContext.getImageData(0, 0, shapeCanvas.width, shapeCanvas.height).data;
-            dots = [],
-                pixels,
-                x = 0,
-                y = 0,
-                fx = shapeCanvas.width,
-                fy = shapeCanvas.height,
-                w = 0,
-                h = 0;
-            for (var p = 0; p < pixels.length; p += (4 * gap)) {
-                if (pixels[p + 3] > 0) {
-                    dots.push(new S.Point({
-                        x: x,
-                        y: y
-                    }));
-                    w = x > w ? x : w;
-                    h = y > h ? y : h;
-                    fx = x < fx ? x : fx;
-                    fy = y < fy ? y : fy;
-                }
-                x += gap;
-                if (x >= shapeCanvas.width) {
-                    x = 0;
-                    y += gap;
-                    p += gap * 4 * shapeCanvas.width;
-                }
-            }
-            return { dots: dots, w: w + fx, h: h + fy };
-        }
-        function setFontSize(s) {
-            shapeContext.font = 'bold ' + s + 'px ' + fontFamily;
-        }
-        function isNumber(n) {
-            return !isNaN(parseFloat(n)) && isFinite(n);
-        }
-        function init() {
-            fit();
-            window.addEventListener('resize', fit);
-        }
-        init();
-        return {
-            imageFile: function (url, callback) {
-                var image = new Image(),
-                    a = S.Drawing.getArea();
-                image.onload = function () {
-                    shapeContext.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
-                    shapeContext.drawImage(this, 0, 0, a.h * 0.6, a.h * 0.6);
-                    callback(processCanvas());
-                };
-                image.onerror = function () {
-                    callback(S.ShapeBuilder.letter('What?'));
-                };
-                image.src = url;
-            },
-            circle: function (d) {
-                var r = Math.max(0, d) / 2;
-                shapeContext.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
-                shapeContext.beginPath();
-                shapeContext.arc(r * gap, r * gap, r * gap, 0, 2 * Math.PI, false);
-                shapeContext.fill();
-                shapeContext.closePath();
-                return processCanvas();
-            },
-            letter: function (l) {
-                var s = 0;
-                setFontSize(fontSize);
-                s = Math.min(fontSize,
-                    (shapeCanvas.width / shapeContext.measureText(l).width) * 0.8 * fontSize,
-                    (shapeCanvas.height / fontSize) * (isNumber(l) ? 1 : 0.45) * fontSize);
-                setFontSize(s);
-                shapeContext.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
-                shapeContext.fillText(l, shapeCanvas.width / 2, shapeCanvas.height / 2);
-                return processCanvas();
-            },
-            rectangle: function (w, h) {
-                var dots = [],
-                    width = gap * w,
-                    height = gap * h;
-                for (var y = 0; y < height; y += gap) {
-                    for (var x = 0; x < width; x += gap) {
-                        dots.push(new S.Point({
-                            x: x,
-                            y: y
-                        }));
-                    }
-                }
-                return { dots: dots, w: width, h: height };
-            }
-        };
-    }());
-    S.Shape = (function () {
-        var dots = [],
-            width = 0,
-            height = 0,
-            cx = 0,
-            cy = 0;
-        function compensate() {
-            var a = S.Drawing.getArea();
-            cx = a.w / 2 - width / 2;
-            cy = a.h / 2 - height / 2;
-        }
-        return {
-            shuffleIdle: function () {
-                var a = S.Drawing.getArea();
-                for (var d = 0; d < dots.length; d++) {
-                    if (!dots[d].s) {
-                        dots[d].move({
-                            x: Math.random() * a.w,
-                            y: Math.random() * a.h
-                        });
-                    }
-                }
-            },
-            switchShape: function (n, fast) {
-                var size,
-                    a = S.Drawing.getArea();
-                width = n.w;
-                height = n.h;
-                compensate();
-                if (n.dots.length > dots.length) {
-                    size = n.dots.length - dots.length;
-                    for (var d = 1; d <= size; d++) {
-                        dots.push(new S.Dot(a.w / 2, a.h / 2));
-                    }
-                }
-                var d = 0,
-                    i = 0;
-                while (n.dots.length > 0) {
-                    i = Math.floor(Math.random() * n.dots.length);
-                    dots[d].e = fast ? 0.25 : (dots[d].s ? 0.14 : 0.11);
-                    if (dots[d].s) {
-                        dots[d].move(new S.Point({
-                            z: Math.random() * 20 + 10,
-                            a: Math.random(),
-                            h: 18
-                        }));
-                    } else {
-                        dots[d].move(new S.Point({
-                            z: Math.random() * 5 + 5,
-                            h: fast ? 18 : 30
-                        }));
-                    }
-                    dots[d].s = true;
-                    dots[d].move(new S.Point({
-                        x: n.dots[i].x + cx,
-                        y: n.dots[i].y + cy,
-                        a: 1,
-                        z: 5,
-                        h: 0
-                    }));
-                    n.dots = n.dots.slice(0, i).concat(n.dots.slice(i + 1));
-                    d++;
-                }
-                for (var i = d; i < dots.length; i++) {
-                    if (dots[i].s) {
-                        dots[i].move(new S.Point({
-                            z: Math.random() * 20 + 10,
-                            a: Math.random(),
-                            h: 20
-                        }));
-                        dots[i].s = false;
-                        dots[i].e = 0.04;
-                        dots[i].move(new S.Point({
-                            x: Math.random() * a.w,
-                            y: Math.random() * a.h,
-                            a: 0.3,
-                            z: Math.random() * 4,
-                            h: 0
-                        }));
-                    }
-                }
-            },
-            render: function () {
-                for (var d = 0; d < dots.length; d++) {
-                    dots[d].render();
-                }
-            }
-        };
-    }());
-    S.init();
+        playing = !playing;
+    });
+})();
+
+/* ===== 纪念卡弹窗 ===== */
+(function () {
+    var btn = document.getElementById('genBtn');
+    var modal = document.getElementById('memModal');
+    var close = document.getElementById('memClose');
+    btn.addEventListener('click', function () { modal.classList.add('show'); });
+    close.addEventListener('click', function () { modal.classList.remove('show'); });
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.classList.remove('show');
+    });
+})();
 </script>
 </body>
 </html>
