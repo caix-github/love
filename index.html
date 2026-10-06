@@ -149,28 +149,60 @@
         .anni-name { color: #ff6b9d; font-weight: 600; }
         .anni-start { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
 
-        /* ===== 愿望清单 ===== */
-        .wish-list { list-style: none; padding: 0; margin: 0; }
-        .wish-list li {
-            padding: 9px 4px; color: rgba(255, 255, 255, 0.85); cursor: pointer;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: color 0.2s;
-            user-select: none;
+        /* ===== 异地时光机 ===== */
+        .memory-intro {
+            display: flex; align-items: baseline; justify-content: space-between;
+            gap: 12px; margin: -4px 0 18px;
+            color: rgba(255, 255, 255, 0.58); font-size: 13px;
         }
-        .wish-list li:last-child { border-bottom: none; }
-        .wish-list li:hover { color: #fff; }
-        .wish-list li.done { color: rgba(255, 255, 255, 0.45); }
-        .wish-list li.done .wish-text { text-decoration: line-through; }
-        .wish-list .mark { color: #ff6b9d; margin-right: 10px; font-weight: 700; }
+        .memory-intro strong { color: #ff9cbb; font-size: 15px; font-weight: 500; }
+        .memory-filters {
+            display: flex; gap: 8px; overflow-x: auto; padding: 0 0 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            scrollbar-width: none;
+        }
+        .memory-filters::-webkit-scrollbar { display: none; }
+        .memory-filter {
+            flex: 0 0 auto; padding: 5px 13px; border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 16px; background: transparent; color: rgba(255, 255, 255, 0.65);
+            font: inherit; font-size: 13px; cursor: pointer; transition: all 0.2s;
+        }
+        .memory-filter:hover, .memory-filter.active {
+            border-color: rgba(255, 107, 157, 0.65); background: rgba(255, 107, 157, 0.14); color: #ff9cbb;
+        }
+        .memory-year { margin-top: 22px; }
+        .memory-year[hidden], .memory-item[hidden] { display: none; }
+        .memory-year-title {
+            margin: 0 0 4px; color: rgba(255, 255, 255, 0.92);
+            font-family: "Dancing Script", "Noto Sans SC", cursive; font-size: 27px; font-weight: 600;
+        }
+        .memory-year-title span {
+            margin-left: 8px; color: rgba(255, 255, 255, 0.38);
+            font-family: "Noto Sans SC", sans-serif; font-size: 11px; font-weight: 400;
+        }
+        .memory-list { list-style: none; padding: 0; margin: 0; }
+        .memory-item {
+            position: relative; display: grid; grid-template-columns: 76px 1fr; gap: 14px;
+            padding: 13px 0 13px 18px; border-left: 1px solid rgba(255, 107, 157, 0.32);
+            animation: memoryIn 0.45s both;
+        }
+        .memory-item::before {
+            position: absolute; top: 21px; left: -4px; width: 7px; height: 7px;
+            border-radius: 50%; background: #ff82aa; box-shadow: 0 0 12px rgba(255, 107, 157, 0.65);
+            content: "";
+        }
+        .memory-date { color: rgba(255, 255, 255, 0.5); font-size: 12px; font-variant-numeric: tabular-nums; }
+        .memory-story { color: rgba(255, 255, 255, 0.9); font-size: 14px; line-height: 1.65; }
+        @keyframes memoryIn { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ===== 照片墙 ===== */
-        .photo-grid { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .photo { position: relative; border-radius: 12px; overflow: hidden; }
-        .photo img { width: 100%; max-width: 200px; display: block; }
+        .photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+        .photo { position: relative; min-width: 0; border-radius: 8px; overflow: hidden; background: rgba(255, 255, 255, 0.06); }
+        .photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
         .photo-cap {
             position: absolute; bottom: 0; left: 0; right: 0;
             background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
-            color: #fff; font-size: 13px; padding: 18px 10px 8px; text-align: center;
+            color: #fff; font-size: 12px; padding: 18px 8px 6px; text-align: center;
         }
 
         /* ===== 页脚 ===== */
@@ -235,6 +267,7 @@
             .stat .num { font-size: 20px; }
             .big-num { font-size: 34px; }
             .container { padding: 24px 14px 100px; }
+            .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
         }
     </style>
 </head>
@@ -247,7 +280,7 @@
 
     <!-- Hero -->
     <header class="hero">
-        <img src="pic.jpg" class="avatar" alt="小公主">
+        <img src="//cdn.jsdmirror.com/gh/caix-github/wedding-pics/love-cover.jpg" class="avatar" alt="小公主">
         <h1 class="hero-title">致 小公主</h1>
         <p class="hero-sub">很高兴，很幸运与你相遇</p>
     </header>
@@ -265,9 +298,9 @@
         <h2 class="section-title">我们的数字</h2>
         <div class="stats-grid">
             <div class="stat"><span class="emoji">💕</span><span class="num" id="loveDays">0</span><span class="label">相恋天数</span></div>
-            <div class="stat"><span class="emoji">🗓️</span><span class="num">1</span><span class="label">里程碑节点</span></div>
-            <div class="stat"><span class="emoji">📷</span><span class="num">1</span><span class="label">照片回忆</span></div>
-            <div class="stat"><span class="emoji">✅</span><span class="num" id="wishRate">0%</span><span class="label">愿望完成率</span></div>
+            <div class="stat"><span class="emoji">🗓️</span><span class="num" id="memoryCount">0</span><span class="label">共同回忆</span></div>
+            <div class="stat"><span class="emoji">📷</span><span class="num" id="photoCount">0</span><span class="label">照片回忆</span></div>
+            <div class="stat"><span class="emoji">💌</span><span class="num">∞</span><span class="label">想念不打烊</span></div>
             <div class="stat"><span class="emoji">🌙</span><span class="num" id="loveWeeks">0</span><span class="label">相恋周数</span></div>
             <div class="stat"><span class="emoji">🏠</span><span class="num" id="visits">1</span><span class="label">本机访问次数</span><span class="sub" id="visitsSub">首次访问 · 仅本设备</span></div>
         </div>
@@ -317,26 +350,100 @@
         </div>
     </section>
 
-    <!-- 愿望清单 -->
-    <section class="card">
-        <h2 class="section-title">愿望清单</h2>
-        <ul class="wish-list" id="wishList">
-            <li data-id="0"><span class="mark">○</span><span class="wish-text">你想吃的我都做</span></li>
-            <li data-id="1"><span class="mark">○</span><span class="wish-text">你想去的地方我都陪你去</span></li>
-            <li data-id="2"><span class="mark">○</span><span class="wish-text">你想做的事情我都陪你做</span></li>
-            <li data-id="3"><span class="mark">○</span><span class="wish-text">小公主，天天快乐</span></li>
-        </ul>
+    <!-- 异地时光机 -->
+    <section class="card memory-card">
+        <h2 class="section-title">异地时光机</h2>
+        <div class="memory-intro">
+            <span>把一起走过的日子，慢慢倒带</span>
+            <strong><span id="memoryCountLabel">0</span> 段回忆</strong>
+        </div>
+        <div class="memory-filters" role="group" aria-label="按年份筛选回忆">
+            <button class="memory-filter active" type="button" data-year-filter="all" aria-pressed="true">全部</button>
+            <button class="memory-filter" type="button" data-year-filter="2023" aria-pressed="false">2023</button>
+            <button class="memory-filter" type="button" data-year-filter="2024" aria-pressed="false">2024</button>
+            <button class="memory-filter" type="button" data-year-filter="2025" aria-pressed="false">2025</button>
+        </div>
+        <div class="memory-years" id="memoryTimeline">
+            <section class="memory-year" data-memory-year="2023">
+                <h3 class="memory-year-title">2023<span>故事的序章</span></h3>
+                <ol class="memory-list">
+                    <li class="memory-item"><time class="memory-date" datetime="2023-12-02">12.02</time><span class="memory-story">澳门行</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2023-12-03">12.03</time><span class="memory-story">校园行</span></li>
+                </ol>
+            </section>
+            <section class="memory-year" data-memory-year="2024">
+                <h3 class="memory-year-title">2024<span>把平凡日子过成纪念日</span></h3>
+                <ol class="memory-list">
+                    <li class="memory-item"><time class="memory-date" datetime="2024-01-06">01.06</time><span class="memory-story">动物园行</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-01-07">01.07</time><span class="memory-story">梦初之年吃饭·番茄炒蛋、白灼虾</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-01-13">01.13</time><span class="memory-story">公园前，逛商业街</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-02-05">02.05</time><span class="memory-story">白云山</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-02-06">02.06</time><span class="memory-story">岭南天地</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-03-10">03.10</time><span class="memory-story">启用公众号</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-03-16">03.16</time><span class="memory-story">广州市文化馆</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-03-23">03.23</time><span class="memory-story">学位考试，古港之行</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-03-30">03.30</time><span class="memory-story">珠海聚·香山湖·圆明新园</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-04-22">04.22</time><span class="memory-story">珠海聚·富华里·板樟山·城市客厅·灯塔</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-04-27">04.27</time><span class="memory-story">珠海聚·长隆行</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-05-04">05.04</time><span class="memory-story">与爽姐聚餐，打麻将</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-05-17">05.17</time><span class="memory-story">珠海聚·羽毛球</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-06-09">06.09</time><span class="memory-story">清远漂流记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-06-10">06.10</time><span class="memory-story">太和古洞记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-06-22">06.22</time><span class="memory-story">珠海聚·同心公园·富华里·玖洲道</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-07-06">07.06</time><span class="memory-story">陪小公主打九价，一起洗牙，跟大哥吃饭</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-07-14">07.14</time><span class="memory-story">珠海聚·捞汁海鲜·摩打食堂</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-07-21">07.21</time><span class="memory-story">菊树夜市美食，整理小公主宿舍，跟二哥吃饭</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-08-03">08.03</time><span class="memory-story">拼花花等筒，佛山科技馆游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-08-10">08.10</time><span class="memory-story">梦幻水城记，小公主生日记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-08-24">08.24</time><span class="memory-story">莲花山游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-08-30">08.30</time><span class="memory-story">珠海海边骑行，包春卷</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-09-14">09.14</time><span class="memory-story">永庆坊游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-10-01">10.01</time><span class="memory-story">DIY蛋糕记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-10-02">10.02</time><span class="memory-story">白鹅潭艺术中心游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-10-06">10.06</time><span class="memory-story">越秀公园游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-10-20">10.20</time><span class="memory-story">观看花地湾生活馆古筝表演</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-11-01">11.01</time><span class="memory-story">参加婚礼，小悦半日游</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-11-09">11.09</time><span class="memory-story">自制寿司，桂山岛游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-11-24">11.24</time><span class="memory-story">竹溪早茶，东莞露营记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2024-12-14">12.14</time><span class="memory-story">流花湖公园游记</span></li>
+                </ol>
+            </section>
+            <section class="memory-year" data-memory-year="2025">
+                <h3 class="memory-year-title">2025<span>想念有迹可循</span></h3>
+                <ol class="memory-list">
+                    <li class="memory-item"><time class="memory-date" datetime="2025-01-04">01.04</time><span class="memory-story">自制香薰记，买面包记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-01-11">01.11</time><span class="memory-story">板樟山栈道，圆明新园记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-01-25">01.25</time><span class="memory-story">清远游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-02-15">02.15</time><span class="memory-story">情人节看哪吒记，海底捞记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-02-23">02.23</time><span class="memory-story">逛山姆记，香港游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-03-01">03.01</time><span class="memory-story">洲头咀公园游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-03-13">03.13</time><span class="memory-story">看剧，品尝美食记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-03-14">03.14</time><span class="memory-story">小公园游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-03-22">03.22</time><span class="memory-story">意外的惊喜，珠海聚</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-03-29">03.29</time><span class="memory-story">东莞羽毛球，KTV</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-04-13">04.13</time><span class="memory-story">江北公园游记，品尝糯米饭</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-05-01">05.01</time><span class="memory-story">南冲游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-05-17">05.17</time><span class="memory-story">陈家祠游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-05-24">05.24</time><span class="memory-story">小荷考试记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-06-01">06.01</time><span class="memory-story">唐家古镇游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-06-14">06.14</time><span class="memory-story">大沙河湿地公园看荷花记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-06-21">06.21</time><span class="memory-story">大夫山森林公园游记，品茂朴熟味</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-07-06">07.06</time><span class="memory-story">贺州姑婆山游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-07-07">07.07</time><span class="memory-story">贺州黄姚古镇游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-08-16">08.16</time><span class="memory-story">鼎湖山七星岩游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-08-28">08.28</time><span class="memory-story">丹霞山游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-08-30">08.30</time><span class="memory-story">仰天湖大草原游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-08-31">08.31</time><span class="memory-story">小东江游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2025-10-19">10.19</time><span class="memory-story">白水寨游记</span></li>
+                </ol>
+            </section>
+        </div>
     </section>
 
     <!-- 照片墙 -->
     <section class="card">
         <h2 class="section-title">📷 照片墙</h2>
-        <div class="photo-grid">
-            <div class="photo">
-                <img src="pic.jpg" alt="小公主">
-                <span class="photo-cap">小公主</span>
-            </div>
-        </div>
+        <div class="photo-grid" id="photoGrid"></div>
     </section>
 
     <footer class="footer">
@@ -347,7 +454,7 @@
 <!-- 浮动音乐按钮 -->
 <button class="fab" id="musicBtn" aria-label="背景音乐">♪</button>
 <audio id="bgMusic" loop>
-    <source src="music.mp3" type="audio/mpeg">
+    <source src="//cdn.jsdmirror.com/gh/caix-github/wedding-pics/sgj.mp3" type="audio/mpeg">
 </audio>
 
 <!-- 纪念卡弹窗 -->
@@ -452,34 +559,75 @@ function tick() {
 tick();
 setInterval(tick, 1000);
 
-/* ===== 愿望清单（可点击切换 + 本地持久化 + 完成率） ===== */
+/* ===== 回忆照片墙 ===== */
 (function () {
-    var items = document.querySelectorAll('#wishList li');
-    var state = {};
-    try { state = JSON.parse(localStorage.getItem('love_wishes') || '{}'); } catch (e) {}
-    function refreshRate() {
-        var done = 0;
-        items.forEach(function (li) {
-            if (li.classList.contains('done')) done++;
-        });
-        document.getElementById('wishRate').textContent = Math.round(done / items.length * 100) + '%';
-    }
-    items.forEach(function (li) {
-        var id = li.getAttribute('data-id');
-        var mark = li.querySelector('.mark');
-        if (state[id]) {
-            li.classList.add('done');
-            mark.textContent = '✓';
-        }
-        li.addEventListener('click', function () {
-            li.classList.toggle('done');
-            mark.textContent = li.classList.contains('done') ? '✓' : '○';
-            state[id] = li.classList.contains('done');
-            try { localStorage.setItem('love_wishes', JSON.stringify(state)); } catch (e) {}
-            refreshRate();
+    var imageNames = [
+        '20261006182706_8_54.jpg', '20261006182810_9_54.jpg', '20261006182838_10_54.jpg',
+        '20261006185111_11_54.jpg', '20261006185112_12_54.jpg', '20261006185113_13_54.jpg',
+        '20261006185114_14_54.jpg', '20261006185115_15_54.jpg', '20261006185116_16_54.jpg',
+        '20261006185117_17_54.jpg', '20261006185118_18_54.jpg', '20261006185119_19_54.jpg',
+        '20261006185120_20_54.jpg', '20261006185121_21_54.jpg', '20261006185122_22_54.jpg',
+        '20261006185124_23_54.jpg', '20261006185125_24_54.jpg', '20261006185126_25_54.jpg',
+        '20261006185128_26_54.jpg', '20261006185129_27_54.jpg', '20261006185131_28_54.jpg',
+        '20261006185132_29_54.jpg', '20261006185133_30_54.jpg', '20261006185135_31_54.jpg',
+        '20261006185136_32_54.jpg', '20261006185137_33_54.jpg', '20261006185139_34_54.jpg',
+        '20261006185140_35_54.jpg', '20261006185141_36_54.jpg', '20261006185143_37_54.jpg',
+        '20261006185144_38_54.jpg', '20261006185145_39_54.jpg', '20261006185147_40_54.jpg',
+        '20261006185148_41_54.jpg', '20261006185150_42_54.jpg', '20261006185151_43_54.jpg',
+        '20261006185152_44_54.jpg', '20261006185153_45_54.jpg', '20261006185155_46_54.jpg',
+        '20261006185156_47_54.jpg', '20261006185157_48_54.jpg', '20261006185159_49_54.jpg',
+        '20261006185200_50_54.jpg', '20261006185200_51_54.jpg', '20261006185201_52_54.jpg',
+        '20261006185202_53_54.jpg', '20261006185203_54_54.jpg', '20261006185204_55_54.jpg',
+        '20261006185205_56_54.jpg', '20261006185206_57_54.jpg', '20261006185207_58_54.jpg',
+        '20261006185208_59_54.jpg', '20261006185208_60_54.jpg', '20261006185209_61_54.jpg',
+        '20261006185210_62_54.jpg', '20261006185211_63_54.jpg', '20261006185212_64_54.jpg',
+        '20261006185213_65_54.jpg', '20261006185214_66_54.jpg', '20261006185215_67_54.jpg',
+        '20261006185216_68_54.jpg', '20261006185217_69_54.jpg', '20261006185217_70_54.jpg',
+        '20261006185218_71_54.jpg'
+    ];
+    var grid = document.getElementById('photoGrid');
+    var fragment = document.createDocumentFragment();
+    imageNames.forEach(function (imageName) {
+        var photo = document.createElement('div');
+        var image = document.createElement('img');
+        var caption = document.createElement('span');
+        var imageNumber = imageName.match(/_(\d+)_54\.jpg$/)[1];
+        photo.className = 'photo';
+        image.src = '//cdn.jsdmirror.com/gh/caix-github/wedding-pics/' + imageName;
+        image.alt = imageName;
+        image.title = imageName;
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        caption.className = 'photo-cap';
+        // caption.textContent = '回忆 · ' + imageNumber;
+        photo.appendChild(image);
+        photo.appendChild(caption);
+        fragment.appendChild(photo);
+    });
+    grid.appendChild(fragment);
+    document.getElementById('photoCount').textContent = imageNames.length;
+})();
+
+/* ===== 异地时光机年份筛选 ===== */
+(function () {
+    var filters = document.querySelectorAll('[data-year-filter]');
+    var years = document.querySelectorAll('[data-memory-year]');
+    var count = document.querySelectorAll('.memory-item').length;
+    document.getElementById('memoryCount').textContent = count;
+    document.getElementById('memoryCountLabel').textContent = count;
+    filters.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var selectedYear = button.getAttribute('data-year-filter');
+            filters.forEach(function (filter) {
+                var active = filter === button;
+                filter.classList.toggle('active', active);
+                filter.setAttribute('aria-pressed', String(active));
+            });
+            years.forEach(function (year) {
+                year.hidden = selectedYear !== 'all' && year.getAttribute('data-memory-year') !== selectedYear;
+            });
         });
     });
-    refreshRate();
 })();
 
 /* ===== 本机访问次数（localStorage） ===== */
