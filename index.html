@@ -374,6 +374,9 @@
             <p class="anni-name">💕 相恋纪念日</p>
             <p>✨ 距离第 <span style="color:#ff6b9d;font-weight:600;" id="anniCount2">—</span> 个相恋纪念日，还有 <span style="color:#ff6b9d;font-weight:600;" id="anniDays2">—</span> 天</p>
             <p class="anni-start">起始于：2024-01-07</p>
+            <p class="anni-name">💍 结婚纪念日</p>
+            <p>✨ 距离结婚纪念日还有 <span style="color:#ff6b9d;font-weight:600;" id="weddingAnniDays">—</span> 天</p>
+            <p class="anni-start">起始于：2026-11-19（每年11月19日）</p>
         </div>
         <div class="anni-item">
             <p class="anni-name">💍 结婚纪念日</p>
@@ -662,23 +665,33 @@ setInterval(tick, 1000);
         '20261006185210_62_54.jpg', '20261006185211_63_54.jpg', '20261006185212_64_54.jpg',
         '20261006185213_65_54.jpg', '20261006185214_66_54.jpg', '20261006185215_67_54.jpg',
         '20261006185216_68_54.jpg', '20261006185217_69_54.jpg', '20261006185217_70_54.jpg',
-        '20261006185218_71_54.jpg'
+        '20261006185218_71_54.jpg',
+        '20261124223509_158_54.jpg', '20261124223510_159_54.jpg',
+        '20261124223514_160_54.jpg', '20261124223516_161_54.jpg',
+        '20261124223517_162_54.jpg', '20261124223519_163_54.jpg',
+        '20261124223520_164_54.jpg', '20261124223523_165_54.jpg',
+        '20261124223525_166_54.jpg', '20261124223529_167_54.jpg',
+        '20261124223531_168_54.jpg', '20261124223534_169_54.jpg',
+        '20261124223537_170_54.jpg'
     ];
+    var imageBase = '//cdn.jsdmirror.com/gh/caix-github/wedding-pics/';
     var grid = document.getElementById('photoGrid');
     var fragment = document.createDocumentFragment();
     imageNames.forEach(function (imageName) {
-        var photo = document.createElement('div');
+        var photo = document.createElement('a');
         var image = document.createElement('img');
         var caption = document.createElement('span');
-        var imageNumber = imageName.match(/_(\d+)_54\.jpg$/)[1];
         photo.className = 'photo';
-        image.src = '//cdn.jsdmirror.com/gh/caix-github/wedding-pics/' + imageName;
+        photo.href = imageBase + imageName;
+        photo.target = '_blank';
+        photo.rel = 'noopener noreferrer';
+        image.src = imageBase + imageName;
         image.alt = imageName;
         image.title = imageName;
         image.loading = 'lazy';
         image.decoding = 'async';
         caption.className = 'photo-cap';
-        // caption.textContent = '回忆 · ' + imageNumber;
+        caption.textContent = imageName;
         photo.appendChild(image);
         photo.appendChild(caption);
         fragment.appendChild(photo);
