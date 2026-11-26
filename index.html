@@ -300,7 +300,7 @@
             <div class="stat"><span class="emoji">💕</span><span class="num" id="loveDays">0</span><span class="label">相恋天数</span></div>
             <div class="stat"><span class="emoji">🗓️</span><span class="num" id="memoryCount">0</span><span class="label">共同回忆</span></div>
             <div class="stat"><span class="emoji">📷</span><span class="num" id="photoCount">0</span><span class="label">照片回忆</span></div>
-            <div class="stat"><span class="emoji">💌</span><span class="num">∞</span><span class="label">想念不打烊</span></div>
+            <div class="stat"><span class="emoji">💍</span><span class="num">11.19</span><span class="label">结婚纪念日为11月19号</span></div>
             <div class="stat"><span class="emoji">🌙</span><span class="num" id="loveWeeks">0</span><span class="label">相恋周数</span></div>
             <div class="stat"><span class="emoji">🏠</span><span class="num" id="visits">1</span><span class="label">本机访问次数</span><span class="sub" id="visitsSub">首次访问 · 仅本设备</span></div>
         </div>
@@ -320,6 +320,17 @@
             </div>
             <p class="imprint-date">2024-01-07</p>
         </div>
+        <div class="imprint-block">
+            <p class="imprint-label">💍 结婚时光</p>
+            <div class="imprint-big">
+                <span class="big-num" id="wy">0</span><span class="big-unit">年</span>
+                <span class="big-num" id="wd">0</span><span class="big-unit">天</span>
+            </div>
+            <div class="imprint-time">
+                <span id="wh">00</span> 时 <span id="wm">00</span> 分 <span id="ws">00</span> 秒
+            </div>
+            <p class="imprint-date">2026-11-19</p>
+        </div>
     </section>
 
     <!-- 我们的故事 -->
@@ -330,6 +341,12 @@
                 <span class="tl-emoji">💕</span>
                 <span class="tl-date">2024.01.07</span>
                 <span class="tl-event">相恋</span>
+            </div>
+            <span class="tl-sep">———</span>
+            <div class="tl-item">
+                <span class="tl-emoji">💍</span>
+                <span class="tl-date">2026.11.19</span>
+                <span class="tl-event">结婚</span>
             </div>
             <span class="tl-sep">———</span>
             <div class="tl-item">
@@ -347,6 +364,9 @@
             <p class="anni-name">💕 相恋纪念日</p>
             <p>✨ 距离第 <span style="color:#ff6b9d;font-weight:600;" id="anniCount2">—</span> 个相恋纪念日，还有 <span style="color:#ff6b9d;font-weight:600;" id="anniDays2">—</span> 天</p>
             <p class="anni-start">起始于：2024-01-07</p>
+            <p class="anni-name">💍 结婚纪念日</p>
+            <p>✨ 距离结婚纪念日还有 <span style="color:#ff6b9d;font-weight:600;" id="weddingAnniDays">—</span> 天</p>
+            <p class="anni-start">起始于：2026-11-19（每年11月19日）</p>
         </div>
     </section>
 
@@ -516,6 +536,7 @@
 
 /* ===== 时光计数 + 纪念日 ===== */
 var LOVE_START = new Date("2024-01-07T14:00:00");
+var WEDDING_START = new Date("2026-11-19T00:00:00");
 function pad(n) { return String(n).padStart(2, '0'); }
 
 function tick() {
@@ -539,6 +560,18 @@ function tick() {
     document.getElementById('lm').textContent = pad(mins);
     document.getElementById('ls').textContent = pad(secs);
 
+    /* 结婚时光 */
+    var weddingYears = now.getFullYear() - WEDDING_START.getFullYear();
+    var weddingThisYear = new Date(WEDDING_START);
+    weddingThisYear.setFullYear(now.getFullYear());
+    if (now < weddingThisYear) { weddingYears--; weddingThisYear.setFullYear(now.getFullYear() - 1); }
+    var weddingRemMs = now.getTime() - weddingThisYear.getTime();
+    document.getElementById('wy').textContent = weddingYears;
+    document.getElementById('wd').textContent = Math.floor(weddingRemMs / 86400000);
+    document.getElementById('wh').textContent = pad(Math.floor((weddingRemMs % 86400000) / 3600000));
+    document.getElementById('wm').textContent = pad(Math.floor((weddingRemMs % 3600000) / 60000));
+    document.getElementById('ws').textContent = pad(Math.floor((weddingRemMs % 60000) / 1000));
+
     /* 总天数 / 周数 */
     var totalDays = Math.floor(diff / 86400000);
     document.getElementById('loveDays').textContent = totalDays;
@@ -555,6 +588,12 @@ function tick() {
     document.getElementById('anniCount').textContent = anniOrdinal;
     document.getElementById('anniDays2').textContent = anniDaysLeft;
     document.getElementById('anniCount2').textContent = anniOrdinal;
+
+    /* 下一个结婚纪念日 */
+    var nextWeddingAnni = new Date(WEDDING_START);
+    nextWeddingAnni.setFullYear(now.getFullYear());
+    if (nextWeddingAnni < now) nextWeddingAnni.setFullYear(now.getFullYear() + 1);
+    document.getElementById('weddingAnniDays').textContent = Math.ceil((nextWeddingAnni.getTime() - now.getTime()) / 86400000);
 }
 tick();
 setInterval(tick, 1000);
@@ -583,23 +622,33 @@ setInterval(tick, 1000);
         '20261006185210_62_54.jpg', '20261006185211_63_54.jpg', '20261006185212_64_54.jpg',
         '20261006185213_65_54.jpg', '20261006185214_66_54.jpg', '20261006185215_67_54.jpg',
         '20261006185216_68_54.jpg', '20261006185217_69_54.jpg', '20261006185217_70_54.jpg',
-        '20261006185218_71_54.jpg'
+        '20261006185218_71_54.jpg',
+        '20261124223509_158_54.jpg', '20261124223510_159_54.jpg',
+        '20261124223514_160_54.jpg', '20261124223516_161_54.jpg',
+        '20261124223517_162_54.jpg', '20261124223519_163_54.jpg',
+        '20261124223520_164_54.jpg', '20261124223523_165_54.jpg',
+        '20261124223525_166_54.jpg', '20261124223529_167_54.jpg',
+        '20261124223531_168_54.jpg', '20261124223534_169_54.jpg',
+        '20261124223537_170_54.jpg'
     ];
+    var imageBase = '//cdn.jsdmirror.com/gh/caix-github/wedding-pics/';
     var grid = document.getElementById('photoGrid');
     var fragment = document.createDocumentFragment();
     imageNames.forEach(function (imageName) {
-        var photo = document.createElement('div');
+        var photo = document.createElement('a');
         var image = document.createElement('img');
         var caption = document.createElement('span');
-        var imageNumber = imageName.match(/_(\d+)_54\.jpg$/)[1];
         photo.className = 'photo';
-        image.src = '//cdn.jsdmirror.com/gh/caix-github/wedding-pics/' + imageName;
+        photo.href = imageBase + imageName;
+        photo.target = '_blank';
+        photo.rel = 'noopener noreferrer';
+        image.src = imageBase + imageName;
         image.alt = imageName;
         image.title = imageName;
         image.loading = 'lazy';
         image.decoding = 'async';
         caption.className = 'photo-cap';
-        // caption.textContent = '回忆 · ' + imageNumber;
+        caption.textContent = imageName;
         photo.appendChild(image);
         photo.appendChild(caption);
         fragment.appendChild(photo);
