@@ -157,18 +157,28 @@
         }
         .memory-intro strong { color: #ff9cbb; font-size: 15px; font-weight: 500; }
         .memory-filters {
-            display: flex; gap: 8px; overflow-x: auto; padding: 0 0 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            scrollbar-width: none;
+            position: relative; display: inline-block; margin-bottom: 4px;
         }
-        .memory-filters::-webkit-scrollbar { display: none; }
+        .memory-filters::after {
+            position: absolute; top: 13px; right: 15px; width: 7px; height: 7px;
+            border-right: 1.5px solid #ff9cbb; border-bottom: 1.5px solid #ff9cbb;
+            content: ""; pointer-events: none; transform: rotate(45deg);
+        }
         .memory-filter {
-            flex: 0 0 auto; padding: 5px 13px; border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 16px; background: transparent; color: rgba(255, 255, 255, 0.65);
-            font: inherit; font-size: 13px; cursor: pointer; transition: all 0.2s;
+            min-width: 150px; padding: 10px 38px 10px 15px;
+            appearance: none; -webkit-appearance: none;
+            border: 1px solid rgba(255, 156, 187, 0.35); border-radius: 12px;
+            outline: none; background: linear-gradient(135deg, rgba(255, 107, 157, 0.16), rgba(31, 28, 48, 0.96));
+            box-shadow: 0 5px 16px rgba(0, 0, 0, 0.18), inset 0 1px rgba(255, 255, 255, 0.06);
+            color: #ffd2e0; font: inherit; font-size: 14px; cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .memory-filter:hover, .memory-filter.active {
-            border-color: rgba(255, 107, 157, 0.65); background: rgba(255, 107, 157, 0.14); color: #ff9cbb;
+        .memory-filter:hover, .memory-filter:focus-visible {
+            border-color: rgba(255, 156, 187, 0.75);
+            box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.12), 0 5px 16px rgba(0, 0, 0, 0.18);
+        }
+        .memory-filter option {
+            background: #191827; color: #ffd2e0;
         }
         .memory-year { margin-top: 22px; }
         .memory-year[hidden], .memory-item[hidden] { display: none; }
@@ -300,7 +310,7 @@
             <div class="stat"><span class="emoji">💕</span><span class="num" id="loveDays">0</span><span class="label">相恋天数</span></div>
             <div class="stat"><span class="emoji">🗓️</span><span class="num" id="memoryCount">0</span><span class="label">共同回忆</span></div>
             <div class="stat"><span class="emoji">📷</span><span class="num" id="photoCount">0</span><span class="label">照片回忆</span></div>
-            <div class="stat"><span class="emoji">💌</span><span class="num">∞</span><span class="label">想念不打烊</span></div>
+            <div class="stat"><span class="emoji">💌</span><span class="num">∞</span><span class="label">结婚纪念日2026年11月19号</span></div>
             <div class="stat"><span class="emoji">🌙</span><span class="num" id="loveWeeks">0</span><span class="label">相恋周数</span></div>
             <div class="stat"><span class="emoji">🏠</span><span class="num" id="visits">1</span><span class="label">本机访问次数</span><span class="sub" id="visitsSub">首次访问 · 仅本设备</span></div>
         </div>
@@ -320,6 +330,17 @@
             </div>
             <p class="imprint-date">2024-01-07</p>
         </div>
+        <div class="imprint-block" style="margin-top: 22px;">
+            <p class="imprint-label">💍 结婚时光</p>
+            <div class="imprint-big">
+                <span class="big-num" id="my">0</span><span class="big-unit">年</span>
+                <span class="big-num" id="md">0</span><span class="big-unit">天</span>
+            </div>
+            <div class="imprint-time">
+                <span id="mh">00</span> 时 <span id="mm">00</span> 分 <span id="ms">00</span> 秒
+            </div>
+            <p class="imprint-date">2026-11-19</p>
+        </div>
     </section>
 
     <!-- 我们的故事 -->
@@ -330,6 +351,12 @@
                 <span class="tl-emoji">💕</span>
                 <span class="tl-date">2024.01.07</span>
                 <span class="tl-event">相恋</span>
+            </div>
+            <span class="tl-sep">———</span>
+            <div class="tl-item">
+                <span class="tl-emoji">💍</span>
+                <span class="tl-date">2026.11.19</span>
+                <span class="tl-event">结婚</span>
             </div>
             <span class="tl-sep">———</span>
             <div class="tl-item">
@@ -348,6 +375,11 @@
             <p>✨ 距离第 <span style="color:#ff6b9d;font-weight:600;" id="anniCount2">—</span> 个相恋纪念日，还有 <span style="color:#ff6b9d;font-weight:600;" id="anniDays2">—</span> 天</p>
             <p class="anni-start">起始于：2024-01-07</p>
         </div>
+        <div class="anni-item">
+            <p class="anni-name">💍 结婚纪念日</p>
+            <p>✨ 距离第 <span style="color:#ff6b9d;font-weight:600;" id="marriageAnniCount">—</span> 个结婚纪念日，还有 <span style="color:#ff6b9d;font-weight:600;" id="marriageAnniDays">—</span> 天</p>
+            <p class="anni-start">起始于：2026-11-19</p>
+        </div>
     </section>
 
     <!-- 异地时光机 -->
@@ -357,11 +389,14 @@
             <span>把一起走过的日子，慢慢倒带</span>
             <strong><span id="memoryCountLabel">0</span> 段回忆</strong>
         </div>
-        <div class="memory-filters" role="group" aria-label="按年份筛选回忆">
-            <button class="memory-filter active" type="button" data-year-filter="all" aria-pressed="true">全部</button>
-            <button class="memory-filter" type="button" data-year-filter="2023" aria-pressed="false">2023</button>
-            <button class="memory-filter" type="button" data-year-filter="2024" aria-pressed="false">2024</button>
-            <button class="memory-filter" type="button" data-year-filter="2025" aria-pressed="false">2025</button>
+        <div class="memory-filters">
+            <select class="memory-filter" id="memoryYearFilter" aria-label="按年份筛选回忆">
+                <option value="all">全部年份</option>
+                <option value="2023">2023年</option>
+                <option value="2024">2024年</option>
+                <option value="2025">2025年</option>
+                <option value="2026">2026年</option>
+            </select>
         </div>
         <div class="memory-years" id="memoryTimeline">
             <section class="memory-year" data-memory-year="2023">
@@ -435,6 +470,25 @@
                     <li class="memory-item"><time class="memory-date" datetime="2025-08-30">08.30</time><span class="memory-story">仰天湖大草原游记</span></li>
                     <li class="memory-item"><time class="memory-date" datetime="2025-08-31">08.31</time><span class="memory-story">小东江游记</span></li>
                     <li class="memory-item"><time class="memory-date" datetime="2025-10-19">10.19</time><span class="memory-story">白水寨游记</span></li>
+                </ol>
+            </section>
+            <section class="memory-year" data-memory-year="2026">
+                <h3 class="memory-year-title">2026<span>携手走进新的篇章</span></h3>
+                <ol class="memory-list">
+                    <li class="memory-item"><time class="memory-date" datetime="2026-02-23">02.23</time><span class="memory-story">汕头咀公园游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-03-14">03.14</time><span class="memory-story">石牌老热记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-03-15">03.15</time><span class="memory-story">南澳岛游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-03-22">03.22</time><span class="memory-story">大夫山游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-04-11">04.11</time><span class="memory-story">香港迪士尼游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-05-02">05.02</time><span class="memory-story">东山岛游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-07-18">07.18</time><span class="memory-story">拍婚纱记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-08-29">08.29</time><span class="memory-story">阅读书游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-09-25">09.25</time><span class="memory-story">南冲中秋节游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-10-11">10.11</time><span class="memory-story">国家植物园游记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-10-24">10.24</time><span class="memory-story">领证记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-11-08">11.08</time><span class="memory-story">南冲下聘记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-11-19">11.19</time><span class="memory-story">婚礼记</span></li>
+                    <li class="memory-item"><time class="memory-date" datetime="2026-11-21">11.21</time><span class="memory-story">厦门行游记</span></li>
                 </ol>
             </section>
         </div>
@@ -516,6 +570,7 @@
 
 /* ===== 时光计数 + 纪念日 ===== */
 var LOVE_START = new Date("2024-01-07T14:00:00");
+var MARRIAGE_START = new Date("2026-11-19T00:00:00");
 function pad(n) { return String(n).padStart(2, '0'); }
 
 function tick() {
@@ -539,6 +594,21 @@ function tick() {
     document.getElementById('lm').textContent = pad(mins);
     document.getElementById('ls').textContent = pad(secs);
 
+    /* 结婚时光 */
+    var marriageYears = now.getFullYear() - MARRIAGE_START.getFullYear();
+    var marriageAnni = new Date(MARRIAGE_START);
+    marriageAnni.setFullYear(now.getFullYear());
+    if (now < marriageAnni) {
+        marriageYears--;
+        marriageAnni.setFullYear(now.getFullYear() - 1);
+    }
+    var marriageRemMs = now.getTime() - marriageAnni.getTime();
+    document.getElementById('my').textContent = marriageYears;
+    document.getElementById('md').textContent = Math.floor(marriageRemMs / 86400000);
+    document.getElementById('mh').textContent = pad(Math.floor((marriageRemMs % 86400000) / 3600000));
+    document.getElementById('mm').textContent = pad(Math.floor((marriageRemMs % 3600000) / 60000));
+    document.getElementById('ms').textContent = pad(Math.floor((marriageRemMs % 60000) / 1000));
+
     /* 总天数 / 周数 */
     var totalDays = Math.floor(diff / 86400000);
     document.getElementById('loveDays').textContent = totalDays;
@@ -555,6 +625,15 @@ function tick() {
     document.getElementById('anniCount').textContent = anniOrdinal;
     document.getElementById('anniDays2').textContent = anniDaysLeft;
     document.getElementById('anniCount2').textContent = anniOrdinal;
+
+    /* 下一个结婚纪念日 */
+    var nextMarriageAnni = new Date(MARRIAGE_START);
+    nextMarriageAnni.setFullYear(Math.max(now.getFullYear(), MARRIAGE_START.getFullYear() + 1));
+    if (nextMarriageAnni < now) nextMarriageAnni.setFullYear(now.getFullYear() + 1);
+    var marriageAnniDaysLeft = Math.ceil((nextMarriageAnni.getTime() - now.getTime()) / 86400000);
+    var marriageAnniOrdinal = nextMarriageAnni.getFullYear() - MARRIAGE_START.getFullYear();
+    document.getElementById('marriageAnniDays').textContent = marriageAnniDaysLeft;
+    document.getElementById('marriageAnniCount').textContent = marriageAnniOrdinal;
 }
 tick();
 setInterval(tick, 1000);
@@ -610,24 +689,28 @@ setInterval(tick, 1000);
 
 /* ===== 异地时光机年份筛选 ===== */
 (function () {
-    var filters = document.querySelectorAll('[data-year-filter]');
+    var filter = document.getElementById('memoryYearFilter');
     var years = document.querySelectorAll('[data-memory-year]');
     var count = document.querySelectorAll('.memory-item').length;
     document.getElementById('memoryCount').textContent = count;
     document.getElementById('memoryCountLabel').textContent = count;
-    filters.forEach(function (button) {
-        button.addEventListener('click', function () {
-            var selectedYear = button.getAttribute('data-year-filter');
-            filters.forEach(function (filter) {
-                var active = filter === button;
-                filter.classList.toggle('active', active);
-                filter.setAttribute('aria-pressed', String(active));
-            });
-            years.forEach(function (year) {
-                year.hidden = selectedYear !== 'all' && year.getAttribute('data-memory-year') !== selectedYear;
-            });
+
+    var latestYear = Array.prototype.reduce.call(years, function (latest, year) {
+        return Math.max(latest, Number(year.getAttribute('data-memory-year')));
+    }, 0);
+    if (latestYear && filter.querySelector('option[value="' + latestYear + '"]')) {
+        filter.value = String(latestYear);
+    }
+
+    function showSelectedYear() {
+        var selectedYear = filter.value;
+        years.forEach(function (year) {
+            year.hidden = selectedYear !== 'all' && year.getAttribute('data-memory-year') !== selectedYear;
         });
-    });
+    }
+
+    filter.addEventListener('change', showSelectedYear);
+    showSelectedYear();
 })();
 
 /* ===== 本机访问次数（localStorage） ===== */
