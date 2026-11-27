@@ -145,8 +145,10 @@
         .tl-sep { color: rgba(255, 255, 255, 0.25); font-size: 20px; }
 
         /* ===== 纪念日 ===== */
+        .anni-item { padding: 10px 0; }
         .anni-item p { margin: 5px 0; color: rgba(255, 255, 255, 0.85); font-size: 15px; }
         .anni-name { color: #ff6b9d; font-weight: 600; }
+        .anni-name:not(:first-child) { margin-top: 14px; }
         .anni-start { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
 
         /* ===== 异地时光机 ===== */
@@ -206,14 +208,90 @@
         @keyframes memoryIn { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ===== 照片墙 ===== */
-        .photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-        .photo { position: relative; min-width: 0; border-radius: 8px; overflow: hidden; background: rgba(255, 255, 255, 0.06); }
-        .photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
-        .photo-cap {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
-            color: #fff; font-size: 12px; padding: 18px 8px 6px; text-align: center;
+        .photo-carousel {
+            position: relative;
+            overflow: hidden;
+            height: clamp(260px, 55vw, 390px);
+            border-radius: 0;
+            background: transparent;
+            touch-action: pan-y;
         }
+        .photo-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .photo-slide {
+            flex: 0 0 50%;
+            min-width: 0;
+            padding: 0 8px;
+            box-sizing: border-box;
+            opacity: 1;
+            transform: scale(0.96);
+            transition: opacity 0.55s, transform 0.55s;
+        }
+        .photo-slide.active { opacity: 1; transform: scale(1); z-index: 2; }
+        .photo-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+            background: rgba(255, 255, 255, 0.08);
+            filter: brightness(0.55) saturate(0.75);
+            transition: filter 0.55s;
+        }
+        .photo-slide.active img { filter: brightness(1) saturate(1); }
+        .photo-arrow {
+            position: absolute;
+            top: 50%;
+            z-index: 2;
+            width: 38px;
+            height: 38px;
+            margin-top: -19px;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            background: rgba(10, 10, 26, 0.62);
+            color: #fff;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            line-height: 36px;
+            text-align: center;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+        }
+        .photo-arrow:focus,
+        .photo-arrow:focus-visible { outline: none; box-shadow: none; }
+        .photo-arrow:hover { background: rgba(255, 107, 157, 0.75); }
+        .photo-prev { left: 10px; }
+        .photo-next { right: 10px; }
+        .photo-dots {
+            display: flex;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 12px;
+            max-width: 100%;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .photo-dots::-webkit-scrollbar { display: none; }
+        .photo-dot {
+            flex: 0 0 auto;
+            width: 7px;
+            height: 7px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+            cursor: pointer;
+            transition: width 0.25s, background 0.25s;
+        }
+        .photo-dot.active { width: 20px; border-radius: 999px; background: #ff6b9d; }
 
         /* ===== 页脚 ===== */
         .footer { text-align: center; color: rgba(255, 255, 255, 0.45); font-size: 13px; padding: 18px 0 0; }
@@ -277,7 +355,8 @@
             .stat .num { font-size: 20px; }
             .big-num { font-size: 34px; }
             .container { padding: 24px 14px 100px; }
-            .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+            .photo-carousel { height: clamp(220px, 58vw, 320px); }
+            .photo-slide { flex-basis: 72%; padding: 0 5px; }
         }
     </style>
 </head>
@@ -310,7 +389,7 @@
             <div class="stat"><span class="emoji">💕</span><span class="num" id="loveDays">0</span><span class="label">相恋天数</span></div>
             <div class="stat"><span class="emoji">🗓️</span><span class="num" id="memoryCount">0</span><span class="label">共同回忆</span></div>
             <div class="stat"><span class="emoji">📷</span><span class="num" id="photoCount">0</span><span class="label">照片回忆</span></div>
-            <div class="stat"><span class="emoji">💌</span><span class="num">∞</span><span class="label">结婚纪念日2026年11月19号</span></div>
+            <div class="stat"><span class="emoji">💌</span><span class="num">结婚纪念日</span><span class="label">2026年11月19号</span></div>
             <div class="stat"><span class="emoji">🌙</span><span class="num" id="loveWeeks">0</span><span class="label">相恋周数</span></div>
             <div class="stat"><span class="emoji">🏠</span><span class="num" id="visits">1</span><span class="label">本机访问次数</span><span class="sub" id="visitsSub">首次访问 · 仅本设备</span></div>
         </div>
@@ -369,7 +448,6 @@
 
     <!-- 纪念日 -->
     <section class="card">
-        <h2 class="section-title">纪念日</h2>
         <div class="anni-item">
             <p class="anni-name">💕 相恋纪念日</p>
             <p>✨ 距离第 <span style="color:#ff6b9d;font-weight:600;" id="anniCount2">—</span> 个相恋纪念日，还有 <span style="color:#ff6b9d;font-weight:600;" id="anniDays2">—</span> 天</p>
@@ -377,11 +455,6 @@
             <p class="anni-name">💍 结婚纪念日</p>
             <p>✨ 距离结婚纪念日还有 <span style="color:#ff6b9d;font-weight:600;" id="weddingAnniDays">—</span> 天</p>
             <p class="anni-start">起始于：2026-11-19（每年11月19日）</p>
-        </div>
-        <div class="anni-item">
-            <p class="anni-name">💍 结婚纪念日</p>
-            <p>✨ 距离第 <span style="color:#ff6b9d;font-weight:600;" id="marriageAnniCount">—</span> 个结婚纪念日，还有 <span style="color:#ff6b9d;font-weight:600;" id="marriageAnniDays">—</span> 天</p>
-            <p class="anni-start">起始于：2026-11-19</p>
         </div>
     </section>
 
@@ -500,7 +573,12 @@
     <!-- 照片墙 -->
     <section class="card">
         <h2 class="section-title">📷 照片墙</h2>
-        <div class="photo-grid" id="photoGrid"></div>
+        <div class="photo-carousel" id="photoCarousel" aria-label="照片轮播">
+            <div class="photo-track" id="photoTrack"></div>
+            <button class="photo-arrow photo-prev" id="photoPrev" type="button" aria-label="上一张">‹</button>
+            <button class="photo-arrow photo-next" id="photoNext" type="button" aria-label="下一张">›</button>
+        </div>
+        <div class="photo-dots" id="photoDots" aria-label="选择照片"></div>
     </section>
 
     <footer class="footer">
@@ -635,8 +713,7 @@ function tick() {
     if (nextMarriageAnni < now) nextMarriageAnni.setFullYear(now.getFullYear() + 1);
     var marriageAnniDaysLeft = Math.ceil((nextMarriageAnni.getTime() - now.getTime()) / 86400000);
     var marriageAnniOrdinal = nextMarriageAnni.getFullYear() - MARRIAGE_START.getFullYear();
-    document.getElementById('marriageAnniDays').textContent = marriageAnniDaysLeft;
-    document.getElementById('marriageAnniCount').textContent = marriageAnniOrdinal;
+    document.getElementById('weddingAnniDays').textContent = marriageAnniDaysLeft;
 }
 tick();
 setInterval(tick, 1000);
@@ -675,28 +752,85 @@ setInterval(tick, 1000);
         '20261124223537_170_54.jpg'
     ];
     var imageBase = '//cdn.jsdmirror.com/gh/caix-github/wedding-pics/';
-    var grid = document.getElementById('photoGrid');
+    var track = document.getElementById('photoTrack');
+    var carousel = document.getElementById('photoCarousel');
+    var dots = document.getElementById('photoDots');
+    var prev = document.getElementById('photoPrev');
+    var next = document.getElementById('photoNext');
     var fragment = document.createDocumentFragment();
-    imageNames.forEach(function (imageName) {
-        var photo = document.createElement('a');
+    var currentIndex = 0;
+    var timer;
+
+    imageNames.forEach(function (imageName, index) {
+        var slide = document.createElement('div');
         var image = document.createElement('img');
-        var caption = document.createElement('span');
-        photo.className = 'photo';
-        photo.href = imageBase + imageName;
-        photo.target = '_blank';
-        photo.rel = 'noopener noreferrer';
+        slide.className = 'photo-slide';
         image.src = imageBase + imageName;
-        image.alt = imageName;
-        image.title = imageName;
+        image.alt = '';
         image.loading = 'lazy';
         image.decoding = 'async';
-        caption.className = 'photo-cap';
-        caption.textContent = imageName;
-        photo.appendChild(image);
-        photo.appendChild(caption);
-        fragment.appendChild(photo);
+        slide.appendChild(image);
+        fragment.appendChild(slide);
     });
-    grid.appendChild(fragment);
+    track.appendChild(fragment);
+
+    var dotCount = 5;
+    var dotFragment = document.createDocumentFragment();
+    for (var dotIndex = 0; dotIndex < dotCount; dotIndex++) {
+        var dot = document.createElement('button');
+        dot.className = 'photo-dot' + (dotIndex === 0 ? ' active' : '');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', '照片组 ' + (dotIndex + 1));
+        (function (targetDot) {
+            dot.addEventListener('click', function () {
+                showSlide(Math.round(targetDot * (imageNames.length - 1) / (dotCount - 1)));
+                restartTimer();
+            });
+        })(dotIndex);
+        dotFragment.appendChild(dot);
+    }
+    dots.appendChild(dotFragment);
+
+    function showSlide(index) {
+        currentIndex = (index + imageNames.length) % imageNames.length;
+        var slide = track.querySelector('.photo-slide');
+        var slideWidth = slide.getBoundingClientRect().width;
+        var offset = (carousel.clientWidth - slideWidth) / 2 - slideWidth * currentIndex;
+        track.style.transform = 'translateX(' + offset + 'px)';
+        track.querySelectorAll('.photo-slide').forEach(function (item, itemIndex) {
+            item.classList.toggle('active', itemIndex === currentIndex);
+        });
+        var dotPosition = imageNames.length > 1 ? currentIndex / (imageNames.length - 1) : 0;
+        var activeDot = Math.round(dotPosition * (dotCount - 1));
+        dots.querySelectorAll('.photo-dot').forEach(function (item, dotIndex) {
+            item.classList.toggle('active', dotIndex === activeDot);
+        });
+    }
+
+    function restartTimer() {
+        window.clearInterval(timer);
+        timer = window.setInterval(function () { showSlide(currentIndex + 1); }, 4000);
+    }
+
+    prev.addEventListener('click', function () { showSlide(currentIndex - 1); restartTimer(); });
+    next.addEventListener('click', function () { showSlide(currentIndex + 1); restartTimer(); });
+    carousel.addEventListener('mouseenter', function () { window.clearInterval(timer); });
+    carousel.addEventListener('mouseleave', restartTimer);
+
+    var touchStartX = 0;
+    carousel.addEventListener('touchstart', function (event) {
+        touchStartX = event.changedTouches[0].clientX;
+        window.clearInterval(timer);
+    }, { passive: true });
+    carousel.addEventListener('touchend', function (event) {
+        var offset = event.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(offset) > 45) showSlide(currentIndex + (offset < 0 ? 1 : -1));
+        restartTimer();
+    }, { passive: true });
+
+    window.addEventListener('resize', function () { showSlide(currentIndex); });
+    showSlide(0);
+    restartTimer();
     document.getElementById('photoCount').textContent = imageNames.length;
 })();
 
